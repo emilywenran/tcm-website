@@ -1,0 +1,947 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Meridian Atlas · HERBA & SOUL</title>
+<style>
+:root{
+  --bg:#F5F0E8;--surface:#EDE8DC;--surface2:#E5DDD0;
+  --ink:#1A1A1E;--ink2:#3A3830;--ink3:#6B6558;
+  --primary:#3D5A7A;--accent:#C94040;--gold:#B8943A;
+  --border:#C8BFA8;--border2:#D8D0BC;
+  --font-d:'ZCOOL XiaoWei','Noto Serif SC',serif;
+  --font-b:'Noto Serif SC','Songti SC',serif;
+  --font-m:'Inter',sans-serif;
+  --sh-card:0 1px 4px rgba(26,26,30,.07);
+  --sh-panel:0 8px 32px rgba(26,26,30,.16);
+  --r-sm:4px;--r-md:8px;--r-lg:16px;
+  /* 12 meridian colours */
+  --lu:#5B8C6A;--li:#8B5530;--st:#C8952A;--sp:#C94040;
+  --ht:#A03050;--si:#3D5A7A;--bl:#4A7A5A;--ki:#7B5C8C;
+  --pc:#B84060;--tw:#B87040;--gb:#7A4A7A;--lr:#4A6A3A;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--ink);font-family:var(--font-b);background-image:radial-gradient(circle at 20% 10%, rgba(216,211,204,.35) 0 1px, transparent 1px),radial-gradient(circle at 80% 30%, rgba(216,211,204,.25) 0 1px, transparent 1px);background-size:28px 28px,36px 36px;}
+
+/* HEADER */
+.hdr{display:flex;align-items:center;justify-content:space-between;
+  padding:0 48px;height:60px;
+  background:rgba(245,240,232,.96);backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--border2);position:sticky;top:0;z-index:100;
+  background-image:url('https://skyagent-artifacts.skywork.ai/router/agent/2026-07-09/prod_agent_019f448f-df15-7f30-97d2-736d3a643b45/asset_e7329f7e23b26ae3_97d9cfed55cd48a5a3db954608d92a57.png');
+  background-size:cover;background-position:center top;}
+.hdr-logo{display:flex;align-items:center;gap:10px;}
+.hdr-seal{width:34px;height:34px;background:var(--accent);border-radius:3px;
+  display:flex;align-items:center;justify-content:center;
+  color:#fff;font-family:var(--font-d);font-size:14px;letter-spacing:1px;}
+.hdr-title{font-family:var(--font-d);font-size:20px;color:var(--ink);letter-spacing:3px;}
+.hdr-sub{font-size:10px;color:var(--ink3);letter-spacing:2px;font-family:var(--font-m);}
+.hdr-nav{display:flex;gap:28px;align-items:center;}
+.hdr-nav a{font-size:13px;color:var(--ink2);text-decoration:none;letter-spacing:2px;font-family:var(--font-b);transition:color .2s;}
+.hdr-nav a:hover{color:var(--accent);}
+.hdr-badge{padding:3px 10px;border:1px solid var(--accent);border-radius:2px;font-size:11px;color:var(--accent);letter-spacing:2px;font-family:var(--font-m);}
+
+/* MAIN 3-COL */
+.main{display:grid;grid-template-columns:240px minmax(360px,1fr) 320px;min-height:760px;overflow:hidden;}
+
+/* LEFT */
+.lpanel{background:var(--surface);border-right:1px solid var(--border2);overflow-y:auto;padding:20px 0;}
+.lpanel::-webkit-scrollbar{width:3px;}
+.lpanel::-webkit-scrollbar-thumb{background:var(--border);}
+.sec-hd{padding:0 18px 10px;font-size:10px;color:var(--ink3);letter-spacing:3px;font-family:var(--font-m);display:flex;align-items:center;gap:8px;}
+.sec-hd::after{content:'';flex:1;height:1px;background:var(--border2);}
+
+/* View toggle */
+.vtoggle{display:flex;margin:0 18px 18px;background:var(--surface2);border-radius:5px;padding:3px;gap:2px;}
+.vtoggle button{flex:1;padding:7px 0;border:none;background:transparent;border-radius:3px;
+  font-size:13px;color:var(--ink3);cursor:pointer;font-family:var(--font-b);letter-spacing:2px;transition:all .2s;}
+.vtoggle button.active{background:var(--bg);color:var(--ink);box-shadow:0 1px 3px rgba(26,26,30,.10);}
+
+/* Layer btns */
+.layer-row{display:flex;flex-direction:column;gap:6px;padding:0 18px 18px;}
+.lbtn{display:flex;align-items:center;gap:9px;padding:9px 12px;border:1px solid var(--border2);
+  background:var(--bg);border-radius:5px;cursor:pointer;transition:all .2s;
+  font-family:var(--font-b);font-size:12px;color:var(--ink2);letter-spacing:1px;}
+.lbtn.on{background:var(--ink);color:#fff;border-color:var(--ink);}
+.lbtn .dot{width:7px;height:7px;border-radius:50%;}
+.lbtn.on .dot{background:#fff;}
+.lbtn:not(.on) .dot{background:var(--border);}
+
+/* Meridian list */
+.mlist{display:flex;flex-direction:column;gap:1px;padding:0 10px 16px;}
+.mitem{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:5px;
+  cursor:pointer;transition:all .16s;border:1px solid transparent;}
+.mitem:hover{background:var(--surface2);}
+.mitem.selected{background:var(--bg);border-color:var(--border);box-shadow:var(--sh-card);}
+.mbar{width:3px;height:26px;border-radius:2px;flex-shrink:0;}
+.minfo{flex:1;min-width:0;}
+.mname{font-size:12px;font-family:var(--font-d);color:var(--ink);letter-spacing:1px;line-height:1.4;}
+.msub{font-size:10px;color:var(--ink3);letter-spacing:1px;font-family:var(--font-m);}
+.mtog{width:16px;height:9px;background:var(--border);border-radius:5px;position:relative;flex-shrink:0;transition:background .2s;}
+.mtog::after{content:'';position:absolute;left:1px;top:.5px;width:8px;height:8px;border-radius:50%;background:#fff;transition:transform .2s;}
+.mitem.on .mtog{background:var(--m-c,var(--primary));}
+.mitem.on .mtog::after{transform:translateX(7px);}
+
+/* CENTER */
+.cpanel{display:flex;flex-direction:column;align-items:center;overflow-y:auto;
+  padding:16px 8px 24px;background:var(--bg);}
+.cpanel::-webkit-scrollbar{width:3px;}
+.cpanel::-webkit-scrollbar-thumb{background:var(--border);}
+.canvas-wrap{position:relative;width:360px;flex-shrink:0;}
+.canvas-wrap svg{width:100%;height:auto;display:block;}
+.body-tip{position:fixed;background:rgba(245,240,232,.98);border:1px solid var(--border);
+  border-radius:7px;padding:9px 13px;max-width:170px;box-shadow:var(--sh-panel);
+  font-size:11px;pointer-events:none;z-index:200;display:none;}
+.body-tip.show{display:block;}
+.tip-name{font-family:var(--font-d);font-size:13px;color:var(--ink);margin-bottom:3px;letter-spacing:1px;}
+.tip-sub{font-size:10px;color:var(--ink3);letter-spacing:1px;}
+.c-intro{text-align:center;padding:0 0 14px;}
+.c-intro-t{font-family:var(--font-d);font-size:14px;color:var(--ink2);letter-spacing:4px;margin-bottom:3px;}
+.c-intro-s{font-size:10px;color:var(--ink3);letter-spacing:2px;font-family:var(--font-m);}
+.hint-pill{display:flex;align-items:center;gap:5px;padding:6px 13px;background:var(--surface);
+  border:1px solid var(--border2);border-radius:20px;font-size:10px;color:var(--ink3);letter-spacing:1px;margin-top:10px;}
+.pulse{width:5px;height:5px;border-radius:50%;background:var(--accent);flex-shrink:0;
+  animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.5;transform:scale(1.4);}}
+.legend{display:flex;flex-wrap:wrap;gap:7px;margin-top:14px;justify-content:center;max-width:360px;}
+.leg-i{display:flex;align-items:center;gap:4px;font-size:9px;color:var(--ink3);font-family:var(--font-m);}
+.leg-l{width:14px;height:2px;border-radius:1px;}
+
+/* Meridian path */
+.mp{cursor:pointer;fill:none;stroke-linecap:round;stroke-linejoin:round;transition:stroke-width .2s,opacity .2s;}
+.mp:hover{filter:drop-shadow(0 0 3px currentColor);}
+.mp.dim{opacity:.12;}
+.mp.hi{stroke-width:3.5!important;filter:drop-shadow(0 0 5px currentColor);}
+
+/* Acupoint */
+.ap{cursor:pointer;}
+.ap circle{transition:r .15s,opacity .2s;}
+.ap:hover circle{r:6;}
+.ap.dim circle{opacity:.1;}
+.ap.sel circle{r:7;filter:drop-shadow(0 0 5px var(--accent));}
+
+/* RIGHT */
+.rpanel{border-left:1px solid var(--border2);background:var(--surface);overflow-y:auto;display:flex;flex-direction:column;}
+.rpanel::-webkit-scrollbar{width:3px;}
+.rpanel::-webkit-scrollbar-thumb{background:var(--border);}
+.r-empty{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:36px 24px;text-align:center;gap:14px;}
+.r-empty-ring{width:60px;height:60px;border:1.5px solid var(--border);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;color:var(--border);}
+.r-empty-t{font-family:var(--font-d);font-size:17px;color:var(--ink2);letter-spacing:3px;}
+.r-empty-s{font-size:12px;color:var(--ink3);line-height:1.8;letter-spacing:1px;max-width:220px;}
+.r-detail{display:none;flex-direction:column;}
+.r-detail.show{display:flex;}
+.r-dhead{padding:22px 22px 14px;border-bottom:1px solid var(--border2);}
+.r-badge{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:2px;
+  font-size:9px;font-family:var(--font-m);letter-spacing:2px;margin-bottom:10px;}
+.r-badge.mer{background:rgba(61,90,122,.07);color:var(--primary);border:1px solid rgba(61,90,122,.18);}
+.r-badge.acu{background:rgba(201,64,64,.07);color:var(--accent);border:1px solid rgba(201,64,64,.18);}
+.r-name{font-family:var(--font-d);font-size:24px;color:var(--ink);letter-spacing:3px;margin-bottom:3px;}
+.r-name-en{font-family:var(--font-m);font-size:11px;color:var(--ink3);letter-spacing:2px;}
+.r-cbar{width:40px;height:3px;border-radius:2px;margin-top:10px;}
+.r-body{padding:18px 22px;flex:1;}
+.r-sec{margin-bottom:20px;}
+.r-sec-t{font-size:9px;color:var(--ink3);letter-spacing:3px;font-family:var(--font-m);text-transform:uppercase;
+  display:flex;align-items:center;gap:7px;margin-bottom:8px;}
+.r-sec-t::before{content:'';width:3px;height:11px;border-radius:2px;background:currentColor;flex-shrink:0;}
+.r-text{font-size:12px;line-height:1.9;color:var(--ink2);letter-spacing:.5px;}
+.tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px;}
+.tag{padding:3px 8px;background:var(--surface2);border:1px solid var(--border2);border-radius:3px;
+  font-size:10px;color:var(--ink2);letter-spacing:1px;font-family:var(--font-b);}
+.tag.warn{background:rgba(201,64,64,.06);border-color:rgba(201,64,64,.18);color:var(--accent);}
+.steps{display:flex;flex-direction:column;gap:7px;margin-top:6px;}
+.step{display:flex;align-items:flex-start;gap:9px;font-size:11px;color:var(--ink2);line-height:1.7;letter-spacing:.5px;}
+.snum{width:18px;height:18px;background:var(--ink);color:#fff;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;font-size:9px;flex-shrink:0;margin-top:2px;font-family:var(--font-m);}
+.foods{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-top:6px;}
+.food{display:flex;align-items:center;gap:6px;padding:7px 9px;background:var(--bg);
+  border:1px solid var(--border2);border-radius:5px;font-size:11px;color:var(--ink2);letter-spacing:1px;}
+.fdot{width:5px;height:5px;border-radius:50%;background:var(--gold);flex-shrink:0;}
+.best-time{display:flex;align-items:center;gap:9px;padding:9px 12px;background:var(--bg);
+  border:1px solid var(--border2);border-radius:5px;margin-top:6px;}
+.bt-clock{font-family:var(--font-d);font-size:17px;color:var(--primary);letter-spacing:1px;}
+.bt-txt{font-size:11px;color:var(--ink2);line-height:1.6;}
+
+/* KNOWLEDGE SECTION */
+.know{background:var(--bg);border-top:1px solid var(--border2);padding:44px 52px;}
+.know-t{text-align:center;font-family:var(--font-d);font-size:26px;color:var(--ink);letter-spacing:6px;margin-bottom:6px;}
+.know-s{text-align:center;font-size:12px;color:var(--ink3);letter-spacing:2px;margin-bottom:36px;}
+.know-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;max-width:1080px;margin:0 auto;}
+.kcard{background:var(--surface);border:1px solid var(--border2);border-radius:7px;padding:18px;
+  cursor:pointer;transition:all .2s;position:relative;overflow:hidden;}
+.kcard::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--kc,var(--border));opacity:.75;}
+.kcard:hover{border-color:var(--border);box-shadow:var(--sh-card);transform:translateY(-1px);}
+.kc-icon{font-family:var(--font-d);font-size:20px;color:var(--kc);margin-bottom:8px;letter-spacing:2px;}
+.kc-name{font-family:var(--font-d);font-size:14px;color:var(--ink);letter-spacing:2px;margin-bottom:3px;}
+.kc-org{font-size:10px;color:var(--ink3);letter-spacing:1px;margin-bottom:8px;font-family:var(--font-m);}
+.kc-desc{font-size:10px;color:var(--ink2);line-height:1.7;letter-spacing:.5px;}
+
+/* FOOTER */
+.footer{background:var(--ink);color:rgba(255,255,255,.45);padding:24px 52px;
+  display:flex;align-items:center;justify-content:space-between;font-size:11px;font-family:var(--font-m);letter-spacing:1px;}
+.footer-logo{font-family:var(--font-d);font-size:15px;color:rgba(255,255,255,.65);letter-spacing:3px;}
+.footer-disc{font-size:9px;color:rgba(255,255,255,.3);max-width:400px;line-height:1.6;text-align:right;}
+
+.page-scroll{overflow-y:auto;height:calc(100vh - 60px);}
+.page-scroll::-webkit-scrollbar{width:5px;}
+.page-scroll::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
+
+.atlas-shell{width:100%;min-height:760px;}
+@media (max-width: 900px){
+  .main{grid-template-columns:1fr;min-height:auto;overflow:visible;}
+  .lpanel,.rpanel{border:1px solid var(--border2);max-height:none;}
+  .cpanel{order:-1;overflow:visible;}
+  .canvas-wrap{width:min(360px,92vw);}
+  .know{padding:32px 18px;}
+  .know-grid{grid-template-columns:1fr 1fr;}
+}
+@media (max-width: 560px){.know-grid{grid-template-columns:1fr}.foods{grid-template-columns:1fr}}
+</style>
+</head>
+<body data-page-id="meridian-atlas-embedded">
+<div class="atlas-shell">
+<div data-node-id="n12" style="min-height:760px;overflow:hidden;display:flex;flex-direction:column;" id="atlas">
+<div data-node-id="n13" class="main" data-role="main-atlas">
+
+  <!-- LEFT PANEL -->
+  <aside data-node-id="n14" class="lpanel" data-role="left-controls">
+    <div data-node-id="n15" class="sec-hd">VIEW</div>
+    <div data-node-id="n16" class="vtoggle" id="viewToggle">
+      <button data-node-id="n17" class="active" onclick="switchView('front')">FRONT</button>
+      <button data-node-id="n18" onclick="switchView('back')">BACK</button>
+    </div>
+    <div data-node-id="n19" class="sec-hd">LAYERS</div>
+    <div data-node-id="n20" class="layer-row">
+      <button data-node-id="n21" class="lbtn on" id="lbtn-mer" onclick="toggleLayer('mer')">
+        <span data-node-id="n22" class="dot"></span>SHOW MERIDIANS
+      </button>
+      <button data-node-id="n23" class="lbtn on" id="lbtn-acu" onclick="toggleLayer('acu')">
+        <span data-node-id="n24" class="dot"></span>SHOW POINTS
+      </button>
+    </div>
+    <div data-node-id="n25" class="sec-hd">12 CHANNELS</div>
+    <div data-node-id="n26" class="mlist" id="meridianList"></div>
+  </aside>
+
+  <!-- CENTER PANEL -->
+  <main data-node-id="n27" class="cpanel" data-role="body-canvas">
+    <div data-node-id="n28" class="c-intro">
+      <div data-node-id="n29" class="c-intro-t">Full Meridian Body Map</div>
+      <div data-node-id="n30" class="c-intro-s">Click a meridian line or point to see details</div>
+    </div>
+
+    <div data-node-id="n31" class="canvas-wrap" id="canvasWrap">
+      <!-- SVG viewBox: 0 0 320 620 — body centered ~160 wide -->
+      <svg data-node-id="n32" id="bodyCanvas" viewBox="0 0 320 630" xmlns="http://www.w3.org/2000/svg">
+
+        <!-- ═══════ FRONT BODY OUTLINE ═══════ -->
+        <g data-node-id="n33" id="outlineFront">
+          <!-- Head -->
+          <ellipse data-node-id="n34" cx="160" cy="36" rx="26" ry="30" stroke="#1A1A1E" stroke-width="1.5" fill="none"/>
+          <!-- Neck -->
+          <path data-node-id="n35" d="M147 64 Q146 74 144 82 M173 64 Q174 74 176 82" stroke="#1A1A1E" stroke-width="1.3" fill="none"/>
+          <!-- Clavicle -->
+          <path data-node-id="n36" d="M144 82 Q152 88 160 88 Q168 88 176 82" stroke="#1A1A1E" stroke-width="1" opacity=".4" fill="none"/>
+          <!-- Left shoulder -->
+          <path data-node-id="n37" d="M144 82 Q128 84 116 90 Q106 96 100 106" stroke="#1A1A1E" stroke-width="1.5" fill="none"/>
+          <!-- Right shoulder -->
+          <path data-node-id="n38" d="M176 82 Q192 84 204 90 Q214 96 220 106" stroke="#1A1A1E" stroke-width="1.5" fill="none"/>
+          <!-- Torso sides -->
+          <path data-node-id="n39" d="M100 106 Q96 126 96 148 Q96 168 98 186 Q100 204 104 220 Q108 236 112 248 Q114 256 114 268" stroke="#1A1A1E" stroke-width="1.5" fill="none"/>
+          <path data-node-id="n40" d="M220 106 Q224 126 224 148 Q224 168 222 186 Q220 204 216 220 Q212 236 208 248 Q206 256 206 268" stroke="#1A1A1E" stroke-width="1.5" fill="none"/>
+          <!-- Waist / pelvis -->
+          <path data-node-id="n41" d="M114 268 Q120 278 130 283 Q144 288 160 288 Q176 288 190 283 Q200 278 206 268" stroke="#1A1A1E" stroke-width="1.5" fill="none"/>
+          <!-- Chest -->
+          <path data-node-id="n42" d="M108 124 Q128 130 160 130 Q192 130 212 124" stroke="#1A1A1E" stroke-width=".7" opacity=".22" fill="none"/>
+          <!-- Navel -->
+          <circle data-node-id="n43" cx="160" cy="202" r="2.5" stroke="#1A1A1E" stroke-width="1" fill="none" opacity=".38"/>
+          <!-- Center line -->
+          <line data-node-id="n44" x1="160" y1="66" x2="160" y2="288" stroke="#1A1A1E" stroke-width=".5" stroke-dasharray="4 5" opacity=".18"/>
+
+          <!-- LEFT ARM (viewer's left = body's right) -->
+          <path data-node-id="n45" d="M100 106 Q92 120 88 140 Q84 160 82 180 Q80 196 80 210 Q80 222 82 232" stroke="#1A1A1E" stroke-width="1.3" fill="none"/>
+          <!-- forearm L -->
+          <path data-node-id="n46" d="M82 232 Q80 246 78 256 Q76 264 74 270 Q72 276 70 280" stroke="#1A1A1E" stroke-width="1.2" fill="none"/>
+          <!-- hand L — 5 fingers splayed -->
+          <path data-node-id="n47" d="M70 280 Q66 285 64 290 Q63 295 65 297" stroke="#1A1A1E" stroke-width="1.1" fill="none"/>
+          <path data-node-id="n48" d="M70 280 Q68 286 67 292 Q67 297 69 298" stroke="#1A1A1E" stroke-width="1.1" fill="none"/>
+          <path data-node-id="n49" d="M70 280 Q70 287 70 293 Q70 298 72 299" stroke="#1A1A1E" stroke-width="1.1" fill="none"/>
+          <path data-node-id="n50" d="M70 280 Q72 286 73 292 Q74 297 75 298" stroke="#1A1A1E" stroke-width="1.1" fill="none"/>
+          <path data-node-id="n51" d="M70 280 Q74 284 76 288 Q78 292 79 295" stroke="#1A1A1E" stroke-width="1.1" fill="none"/>
+
+          <!-- RIGHT ARM (viewer's right = body's left) -->
+          <path data-node-id="n52" d="M220 106 Q228 120 232 140 Q236 160 238 180 Q240 196 240 210 Q240 222 238 232" stroke="#1A1A1E" stroke-width="1.3" fill="none"/>
+          <!-- forearm R -->
+          <path data-node-id="n53" d="M238 232 Q240 246 242 256 Q244 264 246 270 Q248 276 250 280" stroke="#1A1A1E" stroke-width="1.2" fill="none"/>
+          <!-- hand R — 5 fingers splayed -->
+          <path data-node-id="n54" d="M250 280 Q254 285 256 290 Q257 295 255 297" stroke="#1A1A1E" stroke-width="1.1" fill="none"/>
+          <path data-node-id="n55" d="M250 280 Q252 286 253 292 Q253 297 251 298" stroke="#1A1A1E" stroke-width="1.1" fill="none"/>
+          <path data-node-id="n56" d="M250 280 Q250 287 250 293 Q250 298 248 299" stroke="#1A1A1E" stroke-width="1.1" fill="none"/>
+          <path data-node-id="n57" d="M250 280 Q248 286 247 292 Q246 297 245 298" stroke="#1A1A1E" stroke-width="1.1" fill="none"/>
+          <path data-node-id="n58" d="M250 280 Q246 284 244 288 Q242 292 241 295" stroke="#1A1A1E" stroke-width="1.1" fill="none"/>
+
+          <!-- LEFT LEG -->
+          <path data-node-id="n59" d="M130 288 Q126 304 124 322 Q122 342 122 362 Q122 382 124 400 Q126 416 128 432 Q130 446 130 458" stroke="#1A1A1E" stroke-width="1.4" fill="none"/>
+          <!-- shin L -->
+          <path data-node-id="n60" d="M130 458 Q130 472 130 484 Q130 496 132 506 Q134 514 136 520" stroke="#1A1A1E" stroke-width="1.3" fill="none"/>
+          <!-- foot L -->
+          <path data-node-id="n61" d="M136 520 Q132 526 128 528 Q120 530 114 526" stroke="#1A1A1E" stroke-width="1.2" fill="none"/>
+          <path data-node-id="n62" d="M136 520 Q136 526 136 530 Q134 533 130 533" stroke="#1A1A1E" stroke-width="1.2" fill="none"/>
+
+          <!-- RIGHT LEG -->
+          <path data-node-id="n63" d="M190 288 Q194 304 196 322 Q198 342 198 362 Q198 382 196 400 Q194 416 192 432 Q190 446 190 458" stroke="#1A1A1E" stroke-width="1.4" fill="none"/>
+          <!-- shin R -->
+          <path data-node-id="n64" d="M190 458 Q190 472 190 484 Q190 496 188 506 Q186 514 184 520" stroke="#1A1A1E" stroke-width="1.3" fill="none"/>
+          <!-- foot R -->
+          <path data-node-id="n65" d="M184 520 Q188 526 192 528 Q200 530 206 526" stroke="#1A1A1E" stroke-width="1.2" fill="none"/>
+          <path data-node-id="n66" d="M184 520 Q184 526 184 530 Q186 533 190 533" stroke="#1A1A1E" stroke-width="1.2" fill="none"/>
+        </g>
+
+        <!-- ═══════ BACK BODY OUTLINE ═══════ -->
+        <g data-node-id="n67" id="outlineBack" style="display:none">
+          <!-- Head -->
+          <ellipse data-node-id="n68" cx="160" cy="36" rx="26" ry="30" stroke="#1A1A1E" stroke-width="1.5" fill="none"/>
+          <!-- Neck -->
+          <path data-node-id="n69" d="M147 64 Q146 74 144 82 M173 64 Q174 74 176 82" stroke="#1A1A1E" stroke-width="1.3" fill="none"/>
+          <!-- Shoulders -->
+          <path data-node-id="n70" d="M144 82 Q128 84 116 90 Q106 96 100 106" stroke="#1A1A1E" stroke-width="1.5" fill="none"/>
+          <path data-node-id="n71" d="M176 82 Q192 84 204 90 Q214 96 220 106" stroke="#1A1A1E" stroke-width="1.5" fill="none"/>
+          <!-- Torso sides -->
+          <path data-node-id="n72" d="M100 106 Q96 126 96 148 Q96 168 98 186 Q100 204 104 220 Q108 236 112 248 Q114 256 114 268" stroke="#1A1A1E" stroke-width="1.5" fill="none"/>
+          <path data-node-id="n73" d="M220 106 Q224 126 224 148 Q224 168 222 186 Q220 204 216 220 Q212 236 208 248 Q206 256 206 268" stroke="#1A1A1E" stroke-width="1.5" fill="none"/>
+          <!-- Waist / hips back -->
+          <path data-node-id="n74" d="M114 268 Q120 278 130 283 Q144 288 160 288 Q176 288 190 283 Q200 278 206 268" stroke="#1A1A1E" stroke-width="1.5" fill="none"/>
+          <!-- Spine -->
+          <line data-node-id="n75" x1="160" y1="66" x2="160" y2="286" stroke="#1A1A1E" stroke-width=".9" stroke-dasharray="3 3" opacity=".32"/>
+          <!-- Shoulder blades -->
+          <path data-node-id="n76" d="M130 106 Q126 122 128 140 Q130 152 138 158 Q148 162 160 162" stroke="#1A1A1E" stroke-width=".8" fill="none" opacity=".3"/>
+          <path data-node-id="n77" d="M190 106 Q194 122 192 140 Q190 152 182 158 Q172 162 160 162" stroke="#1A1A1E" stroke-width=".8" fill="none" opacity=".3"/>
+          <!-- Back ribs -->
+          <path data-node-id="n78" d="M136 126 Q160 122 184 126" stroke="#1A1A1E" stroke-width=".6" fill="none" opacity=".18"/>
+          <path data-node-id="n79" d="M132 144 Q160 140 188 144" stroke="#1A1A1E" stroke-width=".6" fill="none" opacity=".18"/>
+          <!-- Buttock crease -->
+          <path data-node-id="n80" d="M116 288 Q138 296 160 296 Q182 296 204 288" stroke="#1A1A1E" stroke-width=".8" fill="none" opacity=".28"/>
+          <!-- Arms back (same as front) -->
+          <path data-node-id="n81" d="M100 106 Q92 120 88 140 Q84 160 82 180 Q80 196 80 210 Q80 222 82 232" stroke="#1A1A1E" stroke-width="1.3" fill="none"/>
+          <path data-node-id="n82" d="M82 232 Q80 246 78 256 Q76 264 74 270 Q72 276 70 280" stroke="#1A1A1E" stroke-width="1.2" fill="none"/>
+          <path data-node-id="n83" d="M220 106 Q228 120 232 140 Q236 160 238 180 Q240 196 240 210 Q240 222 238 232" stroke="#1A1A1E" stroke-width="1.3" fill="none"/>
+          <path data-node-id="n84" d="M238 232 Q240 246 242 256 Q244 264 246 270 Q248 276 250 280" stroke="#1A1A1E" stroke-width="1.2" fill="none"/>
+          <!-- Legs back -->
+          <path data-node-id="n85" d="M130 288 Q126 304 124 322 Q122 342 122 362 Q122 382 124 400 Q126 416 128 432 Q130 446 130 458" stroke="#1A1A1E" stroke-width="1.4" fill="none"/>
+          <path data-node-id="n86" d="M130 458 Q130 472 130 484 Q130 496 132 506 Q134 514 136 520" stroke="#1A1A1E" stroke-width="1.3" fill="none"/>
+          <path data-node-id="n87" d="M136 520 Q132 526 128 528 Q120 530 114 526" stroke="#1A1A1E" stroke-width="1.2" fill="none"/>
+          <path data-node-id="n88" d="M190 288 Q194 304 196 322 Q198 342 198 362 Q198 382 196 400 Q194 416 192 432 Q190 446 190 458" stroke="#1A1A1E" stroke-width="1.4" fill="none"/>
+          <path data-node-id="n89" d="M190 458 Q190 472 190 484 Q190 496 188 506 Q186 514 184 520" stroke="#1A1A1E" stroke-width="1.3" fill="none"/>
+          <path data-node-id="n90" d="M184 520 Q188 526 192 528 Q200 530 206 526" stroke="#1A1A1E" stroke-width="1.2" fill="none"/>
+        </g>
+
+        <!-- ═══════════════════════════════════════════
+             MERIDIAN PATHS — front view (data-view="front")
+             back view paths (data-view="back")
+             shared paths on both (data-view="both")
+        ═══════════════════════════════════════════ -->
+        <g data-node-id="n91" id="meridianLayer">
+          <g data-node-id="n92" id="ml-lung" class="mgrp" data-mid="lung">
+            <!-- Front: LEFT arm inner side, L=viewer left -->
+            <path data-node-id="n93" class="mp" stroke="#5B8C6A" stroke-width="1.7" data-mid="lung" data-view="front"
+              d="M112 120 Q104 118 96 118 Q88 118 82 122 Q78 126 76 132 Q74 140 76 152 Q78 162 80 172 Q82 182 82 194 Q82 206 80 218 Q78 228 76 238 Q74 248 72 256 Q70 264 68 272 Q66 278 64 284"/>
+          </g>
+          <g data-node-id="n94" id="ml-large" class="mgrp" data-mid="large">
+            <path data-node-id="n95" class="mp" stroke="#8B5530" stroke-width="1.7" data-mid="large" data-view="front"
+              d="M67 296 Q68 290 69 284 Q70 276 72 268 Q74 258 76 248 Q78 238 80 228 Q82 218 84 208 Q86 196 88 184 Q90 172 90 160 Q90 148 90 138 Q88 128 86 120 Q90 114 96 110 Q104 106 114 106 Q124 108 134 112 Q142 116 148 122 Q153 128 154 136 Q154 144 153 150"/>
+          </g>
+          <g data-node-id="n96" id="ml-stomach" class="mgrp" data-mid="stomach">
+            <!-- face/head portion -->
+            <path data-node-id="n97" class="mp" stroke="#C8952A" stroke-width="1.7" data-mid="stomach" data-view="front"
+              d="M171 24 Q174 30 175 38 Q175 46 173 53 Q170 59 167 65 Q164 72 162 80 Q160 88 159 96"/>
+            <!-- trunk descending right side of center -->
+            <path data-node-id="n98" class="mp" stroke="#C8952A" stroke-width="1.7" data-mid="stomach" data-view="front"
+              d="M168 100 Q167 112 166 124 Q165 136 164 148 Q163 160 162 172 Q161 184 160 196 Q159 208 158 220 Q157 232 156 244 Q155 256 154 268 Q153 278 152 288"/>
+            <!-- right leg front (viewer right) — lateral to lateral -->
+            <path data-node-id="n99" class="mp" stroke="#C8952A" stroke-width="1.7" data-mid="stomach" data-view="front"
+              d="M186 292 Q188 308 190 326 Q192 346 192 366 Q192 386 190 404 Q188 420 186 434 Q185 448 184 460 Q183 472 183 484 Q183 496 184 508 Q185 516 186 522"/>
+          </g>
+          <g data-node-id="n100" id="ml-spleen" class="mgrp" data-mid="spleen">
+            <path data-node-id="n101" class="mp" stroke="#C94040" stroke-width="1.7" data-mid="spleen" data-view="front"
+              d="M134 524 Q133 514 132 504 Q131 494 130 482 Q129 470 128 458 Q127 446 126 434 Q125 420 124 406 Q123 392 122 378 Q121 364 122 352 Q123 340 126 330 Q128 320 132 312 Q136 304 140 298 Q144 293 150 291"/>
+            <!-- continue up abdomen left of center -->
+            <path data-node-id="n102" class="mp" stroke="#C94040" stroke-width="1.7" data-mid="spleen" data-view="front"
+              d="M152 292 Q153 276 154 260 Q155 244 156 228 Q157 212 157 196 Q157 180 156 166 Q155 154 154 144 Q153 134 152 124 Q151 114 150 104"/>
+          </g>
+          <g data-node-id="n103" id="ml-heart" class="mgrp" data-mid="heart">
+            <path data-node-id="n104" class="mp" stroke="#A03050" stroke-width="1.7" data-mid="heart" data-view="front"
+              d="M208 126 Q212 136 216 150 Q220 164 224 178 Q228 192 230 206 Q232 218 234 230 Q236 242 238 252 Q240 262 242 270 Q244 278 248 284 Q250 290 252 296"/>
+          </g>
+          <g data-node-id="n105" id="ml-small" class="mgrp" data-mid="small">
+            <path data-node-id="n106" class="mp" stroke="#3D5A7A" stroke-width="1.7" data-mid="small" data-view="front"
+              d="M252 296 Q250 288 248 278 Q246 268 244 258 Q242 248 240 238 Q238 226 236 214 Q234 202 232 190 Q230 178 228 166 Q226 154 224 142 Q222 130 220 120 Q216 112 210 108 Q204 104 196 104 Q188 106 182 110 Q176 116 172 124 Q169 132 168 140 Q168 148 168 156"/>
+          </g>
+          <g data-node-id="n107" id="ml-bladder" class="mgrp" data-mid="bladder">
+            <!-- Head + top (both views) -->
+            <path data-node-id="n108" class="mp" stroke="#4A7A5A" stroke-width="1.7" data-mid="bladder" data-view="front"
+              d="M148 10 Q152 6 160 4 Q168 6 172 10 Q174 18 172 26 Q170 34 168 42 Q166 50 165 58 Q164 68 163 78 Q162 88 161 98"/>
+            <!-- Back torso — shown in back view only -->
+            <path data-node-id="n109" class="mp" stroke="#4A7A5A" stroke-width="1.7" data-mid="bladder" data-view="back"
+              d="M152 88 Q150 102 149 116 Q148 130 147 144 Q146 158 145 172 Q144 186 143 200 Q142 214 141 228 Q140 242 139 256 Q138 268 137 280 Q136 288 135 295"/>
+            <path data-node-id="n110" class="mp" stroke="#4A7A5A" stroke-width="1.7" data-mid="bladder" data-view="back"
+              d="M168 88 Q170 102 171 116 Q172 130 173 144 Q174 158 175 172 Q176 186 177 200 Q178 214 179 228 Q180 242 181 256 Q182 268 183 280 Q184 288 185 295"/>
+            <!-- Left leg back (viewer left) -->
+            <path data-node-id="n111" class="mp" stroke="#4A7A5A" stroke-width="1.7" data-mid="bladder" data-view="back"
+              d="M129 292 Q127 308 125 326 Q123 346 122 366 Q121 384 122 402 Q123 416 125 430 Q127 444 128 456 Q128 466 128 478 Q128 490 129 500 Q130 510 132 518"/>
+            <!-- Right leg back (viewer right) -->
+            <path data-node-id="n112" class="mp" stroke="#4A7A5A" stroke-width="1.7" data-mid="bladder" data-view="back"
+              d="M191 292 Q193 308 195 326 Q197 346 198 366 Q199 384 198 402 Q197 416 195 430 Q193 444 192 456 Q192 466 192 478 Q192 490 191 500 Q190 510 188 518"/>
+          </g>
+          <g data-node-id="n113" id="ml-kidney" class="mgrp" data-mid="kidney">
+            <path data-node-id="n114" class="mp" stroke="#7B5C8C" stroke-width="1.7" data-mid="kidney" data-view="front"
+              d="M126 524 Q125 514 124 502 Q123 490 122 478 Q121 466 122 454 Q123 442 124 430 Q125 418 126 406 Q127 394 128 382 Q129 370 130 358 Q131 348 132 338 Q133 328 134 318 Q136 308 138 300 Q140 294 143 290"/>
+            <!-- trunk: up center slightly left -->
+            <path data-node-id="n115" class="mp" stroke="#7B5C8C" stroke-width="1.7" data-mid="kidney" data-view="front"
+              d="M144 290 Q145 278 146 264 Q147 250 148 236 Q149 222 150 208 Q151 194 152 180 Q153 166 154 152 Q155 138 155 126 Q155 114 154 104 Q153 96 152 90"/>
+          </g>
+          <g data-node-id="n116" id="ml-pericardium" class="mgrp" data-mid="pericardium">
+            <path data-node-id="n117" class="mp" stroke="#B84060" stroke-width="1.7" data-mid="pericardium" data-view="front"
+              d="M116 138 Q108 144 102 154 Q98 162 96 172 Q94 182 93 192 Q92 204 91 216 Q90 228 89 240 Q88 252 87 262 Q86 270 85 278 Q84 286 82 292 Q80 298 78 302"/>
+          </g>
+          <g data-node-id="n118" id="ml-sanjiao" class="mgrp" data-mid="sanjiao">
+            <path data-node-id="n119" class="mp" stroke="#B87040" stroke-width="1.7" data-mid="sanjiao" data-view="front"
+              d="M241 295 Q242 287 243 279 Q244 269 246 259 Q248 249 250 239 Q252 229 254 219 Q256 209 258 199 Q260 189 260 178 Q260 168 258 158 Q256 148 252 140 Q248 132 242 126 Q236 120 228 116 Q222 112 216 112 Q210 114 206 118 Q202 124 200 132 Q198 140 198 148 Q198 156 199 163"/>
+          </g>
+          <g data-node-id="n120" id="ml-gallbladder" class="mgrp" data-mid="gallbladder">
+            <!-- head/neck side -->
+            <path data-node-id="n121" class="mp" stroke="#7A4A7A" stroke-width="1.7" data-mid="gallbladder" data-view="front"
+              d="M177 28 Q182 22 188 24 Q192 28 192 36 Q192 44 190 52 Q187 60 184 68 Q181 76 180 84 Q179 92 179 100 Q178 110 177 120"/>
+            <!-- lateral trunk right side -->
+            <path data-node-id="n122" class="mp" stroke="#7A4A7A" stroke-width="1.7" data-mid="gallbladder" data-view="front"
+              d="M216 110 Q218 122 220 134 Q222 148 222 162 Q222 176 220 190 Q218 204 216 218 Q214 232 212 246 Q210 260 208 272 Q206 282 204 290"/>
+            <!-- right leg lateral (viewer right) outer side -->
+            <path data-node-id="n123" class="mp" stroke="#7A4A7A" stroke-width="1.7" data-mid="gallbladder" data-view="front"
+              d="M202 292 Q204 308 206 326 Q208 346 208 366 Q208 386 206 404 Q204 420 202 434 Q200 448 199 460 Q198 472 198 484 Q198 496 199 508 Q200 516 202 522"/>
+          </g>
+          <g data-node-id="n124" id="ml-liver" class="mgrp" data-mid="liver">
+            <path data-node-id="n125" class="mp" stroke="#4A6A3A" stroke-width="1.7" data-mid="liver" data-view="front"
+              d="M138 524 Q137 514 136 504 Q135 492 134 480 Q133 468 132 456 Q131 444 130 432 Q129 420 128 408 Q127 396 126 384 Q125 372 126 360 Q128 348 130 338 Q133 328 136 318 Q139 310 143 304 Q147 298 152 294"/>
+            <!-- up inner thigh / abdomen right of center -->
+            <path data-node-id="n126" class="mp" stroke="#4A6A3A" stroke-width="1.7" data-mid="liver" data-view="front"
+              d="M155 294 Q156 282 158 270 Q160 258 162 246 Q164 234 165 222 Q166 210 166 198 Q166 186 164 174 Q162 162 160 152 Q158 142 157 132 Q156 122 156 112 Q156 104 156 96"/>
+          </g>
+        </g>
+
+        <!-- ═══════════════════════════════════════
+             ACUPOINTS — data-view="front" or "back"
+        ═══════════════════════════════════════ -->
+        <g data-node-id="n127" id="acupointLayer">
+          <!-- FRONT POINTS -->
+          <!-- LU Lung -->
+          <g data-node-id="n128" class="ap" data-pt="LU1"  data-name="Zhongfu" data-mid="lung"   data-view="front"><circle data-node-id="n129" cx="112" cy="120" r="4" fill="#C94040" stroke="#F5F0E8" stroke-width="1.5"/></g>
+          <g data-node-id="n130" class="ap" data-pt="LU5"  data-name="Chize" data-mid="lung"   data-view="front"><circle data-node-id="n131" cx="82"  cy="160" r="4" fill="#C94040" stroke="#F5F0E8" stroke-width="1.5"/></g>
+          <g data-node-id="n132" class="ap" data-pt="LU7"  data-name="Lieque" data-mid="lung"   data-view="front"><circle data-node-id="n133" cx="74"  cy="238" r="4" fill="#C94040" stroke="#F5F0E8" stroke-width="1.5"/></g>
+          <g data-node-id="n134" class="ap" data-pt="LU9"  data-name="Taiyuan" data-mid="lung"   data-view="front"><circle data-node-id="n135" cx="70"  cy="262" r="4" fill="#C94040" stroke="#F5F0E8" stroke-width="1.5"/></g>
+          <!-- LI Large Intestine -->
+          <g data-node-id="n136" class="ap" data-pt="LI4"  data-name="Hegu" data-mid="large"  data-view="front"><circle data-node-id="n137" cx="70"  cy="282" r="4" fill="#C94040" stroke="#F5F0E8" stroke-width="1.5"/></g>
+          <g data-node-id="n138" class="ap" data-pt="LI11" data-name="Quchi" data-mid="large"  data-view="front"><circle data-node-id="n139" cx="88"  cy="178" r="4" fill="#C94040" stroke="#F5F0E8" stroke-width="1.5"/></g>
+          <g data-node-id="n140" class="ap" data-pt="LI20" data-name="Yingxiang" data-mid="large"  data-view="front"><circle data-node-id="n141" cx="148" cy="50"  r="4" fill="#C94040" stroke="#F5F0E8" stroke-width="1.5"/></g>
+          <!-- ST Stomach -->
+          <g data-node-id="n142" class="ap" data-pt="ST2"  data-name="Sibai" data-mid="stomach" data-view="front"><circle data-node-id="n143" cx="171" cy="44"  r="4" fill="#C94040" stroke="#F5F0E8" stroke-width="1.5"/></g>
+          <g data-node-id="n144" class="ap" data-pt="ST25" data-name="Tianshu" data-mid="stomach" data-view="front"><circle data-node-id="n145" cx="169" cy="202" r="4" fill="#C94040" stroke="#F5F0E8" stroke-width="1.5"/></g>
+          <g data-node-id="n146" class="ap" data-pt="ST36" data-name="Zusanli" data-mid="stomach" data-view="front"><circle data-node-id="n147" cx="190" cy="434" r="4" fill="#C94040" stroke="#F5F0E8" stroke-width="1.5"/></g>
+          <g data-node-id="n148" class="ap" data-pt="ST44" data-name="Neiting" data-mid="stomach" data-view="front"><circle data-node-id="n149" cx="186" cy="514" r="4" fill="#C94040" stroke="#F5F0E8" stroke-width="1.5"/></g>
+          <!-- SP Spleen -->
+          <g data-node-id="n150" class="ap" data-pt="SP6"  data-name="Sanyinjiao" data-mid="spleen" data-view="front"><circle data-node-id="n151" cx="128" cy="482" r="4" fill="#C94040" stroke="#F5F0E8" stroke-width="1.5"/></g>
+          <g data-node-id="n152" class="ap" data-pt="SP9"  data-name="Yinlingquan" data-mid="spleen" data-view="front"><circle data-node-id="n153" cx="128" cy="432" r="4" fill="#C94040" stroke="#F5F0E8" stroke-width="1.5"/></g>
+          <g data-node-id="n154" class="ap" data-pt="SP10" data-name="Xuehai"  data-mid="spleen" data-view="front"><circle data-node-id="n155" cx="130" cy="390" r="4" fill="#C94040" stroke="#F5F0E8" stroke-width="1.5"/></g>
+          <!-- HT Heart -->
+          <g data-node-id="n156" class="ap" data-pt="HT3"  data-name="Shaohai" data-mid="heart"  data-view="front"><circle data-node-id="n157" cx="228" cy="192" r="4" fill="#C94040" stroke="#F5F0E8" stroke-width="1.5"/></g>
+          <g data-node-id="n158" class="ap" data-pt="HT7"  data-name="Shenmen" data-mid="heart"  data-view="front"><circle data-node-id="n159" cx="246" cy="274" r="4" fill="#C94040" stroke="#F5F0E8" stroke-width="1.5"/></g>
+          <!-- SI Small Intestine -->
+          <g data-node-id="n160" class="ap" data-pt="SI3"  data-name="Houxi" data-mid="small"  data-view="front"><circle data-node-id="n161" cx="252" cy="292" r="4" fill="#C94040" stroke="#F5F0E8" stroke-width="1.5"/></g>
+          <!-- PC Pericardium -->
+          <g data-node-id="n162" class="ap" data-pt="PC6"  data-name="Neiguan" data-mid="pericardium" data-view="front"><circle data-node-id="n163" cx="89"  cy="240" r="4" fill="#C94040" stroke="#F5F0E8" stroke-width="1.5"/></g>
+          <g data-node-id="n164" class="ap" data-pt="PC8"  data-name="Laogong" data-mid="pericardium" data-view="front"><circle data-node-id="n165" cx="81"  cy="292" r="4" fill="#C94040" stroke="#F5F0E8" stroke-width="1.5"/></g>
+          <!-- TW Triple Warmer -->
+          <g data-node-id="n166" class="ap" data-pt="TW5"  data-name="Waiguan" data-mid="sanjiao" data-view="front"><circle data-node-id="n167" cx="249" cy="248" r="4" fill="#C94040" stroke="#F5F0E8" stroke-width="1.5"/></g>
+          <!-- GB Gallbladder -->
+          <g data-node-id="n168" class="ap" data-pt="GB21" data-name="Jianjing" data-mid="gallbladder" data-view="front"><circle data-node-id="n169" cx="192" cy="100" r="4" fill="#C94040" stroke="#F5F0E8" stroke-width="1.5"/></g>
+          <g data-node-id="n170" class="ap" data-pt="GB34" data-name="Yanglingquan" data-mid="gallbladder" data-view="front"><circle data-node-id="n171" cx="200" cy="440" r="4" fill="#C94040" stroke="#F5F0E8" stroke-width="1.5"/></g>
+          <g data-node-id="n172" class="ap" data-pt="GB44" data-name="Zuqiaoyin" data-mid="gallbladder" data-view="front"><circle data-node-id="n173" cx="200" cy="516" r="4" fill="#C94040" stroke="#F5F0E8" stroke-width="1.5"/></g>
+          <!-- KI Kidney -->
+          <g data-node-id="n174" class="ap" data-pt="KI1"  data-name="Yongquan" data-mid="kidney" data-view="front"><circle data-node-id="n175" cx="126" cy="522" r="4" fill="#C94040" stroke="#F5F0E8" stroke-width="1.5"/></g>
+          <g data-node-id="n176" class="ap" data-pt="KI3"  data-name="Taixi" data-mid="kidney" data-view="front"><circle data-node-id="n177" cx="124" cy="504" r="4" fill="#C94040" stroke="#F5F0E8" stroke-width="1.5"/></g>
+          <!-- LR Liver -->
+          <g data-node-id="n178" class="ap" data-pt="LR3"  data-name="Taichong" data-mid="liver"  data-view="front"><circle data-node-id="n179" cx="138" cy="522" r="4" fill="#C94040" stroke="#F5F0E8" stroke-width="1.5"/></g>
+          <g data-node-id="n180" class="ap" data-pt="LR8"  data-name="Ququan" data-mid="liver"  data-view="front"><circle data-node-id="n181" cx="132" cy="388" r="4" fill="#C94040" stroke="#F5F0E8" stroke-width="1.5"/></g>
+          <g data-node-id="n182" class="ap" data-pt="LR14" data-name="Qimen" data-mid="liver"  data-view="front"><circle data-node-id="n183" cx="116" cy="150" r="4" fill="#C94040" stroke="#F5F0E8" stroke-width="1.5"/></g>
+
+          <!-- BACK POINTS -->
+          <!-- BL Bladder (back) -->
+          <g data-node-id="n184" class="ap" data-pt="BL2"  data-name="Cuanzhu" data-mid="bladder" data-view="back"><circle data-node-id="n185" cx="149" cy="28"  r="4" fill="#C94040" stroke="#F5F0E8" stroke-width="1.5"/></g>
+          <g data-node-id="n186" class="ap" data-pt="BL10" data-name="Tianzhu" data-mid="bladder" data-view="back"><circle data-node-id="n187" cx="152" cy="78"  r="4" fill="#C94040" stroke="#F5F0E8" stroke-width="1.5"/></g>
+          <g data-node-id="n188" class="ap" data-pt="BL13" data-name="Feishu" data-mid="bladder" data-view="back"><circle data-node-id="n189" cx="148" cy="114" r="4" fill="#C94040" stroke="#F5F0E8" stroke-width="1.5"/></g>
+          <g data-node-id="n190" class="ap" data-pt="BL15" data-name="Xinshu" data-mid="bladder" data-view="back"><circle data-node-id="n191" cx="148" cy="128" r="4" fill="#C94040" stroke="#F5F0E8" stroke-width="1.5"/></g>
+          <g data-node-id="n192" class="ap" data-pt="BL18" data-name="Ganshu" data-mid="bladder" data-view="back"><circle data-node-id="n193" cx="147" cy="148" r="4" fill="#C94040" stroke="#F5F0E8" stroke-width="1.5"/></g>
+          <g data-node-id="n194" class="ap" data-pt="BL20" data-name="Pishu" data-mid="bladder" data-view="back"><circle data-node-id="n195" cx="146" cy="163" r="4" fill="#C94040" stroke="#F5F0E8" stroke-width="1.5"/></g>
+          <g data-node-id="n196" class="ap" data-pt="BL23" data-name="Shenshu" data-mid="bladder" data-view="back"><circle data-node-id="n197" cx="145" cy="178" r="4" fill="#C94040" stroke="#F5F0E8" stroke-width="1.5"/></g>
+          <g data-node-id="n198" class="ap" data-pt="BL25" data-name="Dachangshu" data-mid="bladder" data-view="back"><circle data-node-id="n199" cx="144" cy="196" r="4" fill="#C94040" stroke="#F5F0E8" stroke-width="1.5"/></g>
+          <g data-node-id="n200" class="ap" data-pt="BL40" data-name="Weizhong" data-mid="bladder" data-view="back"><circle data-node-id="n201" cx="128" cy="440" r="4" fill="#C94040" stroke="#F5F0E8" stroke-width="1.5"/></g>
+          <g data-node-id="n202" class="ap" data-pt="BL57" data-name="Chengshan" data-mid="bladder" data-view="back"><circle data-node-id="n203" cx="129" cy="474" r="4" fill="#C94040" stroke="#F5F0E8" stroke-width="1.5"/></g>
+          <g data-node-id="n204" class="ap" data-pt="BL60" data-name="Kunlun" data-mid="bladder" data-view="back"><circle data-node-id="n205" cx="130" cy="508" r="4" fill="#C94040" stroke="#F5F0E8" stroke-width="1.5"/></g>
+          <!-- SI back -->
+          <g data-node-id="n206" class="ap" data-pt="SI11" data-name="Tianzong" data-mid="small"   data-view="back"><circle data-node-id="n207" cx="174" cy="136" r="4" fill="#C94040" stroke="#F5F0E8" stroke-width="1.5"/></g>
+          <g data-node-id="n208" class="ap" data-pt="SI14" data-name="Jianwaishu" data-mid="small" data-view="back"><circle data-node-id="n209" cx="178" cy="110" r="4" fill="#C94040" stroke="#F5F0E8" stroke-width="1.5"/></g>
+          <!-- TW back -->
+          <g data-node-id="n210" class="ap" data-pt="TW14" data-name="Jianliao" data-mid="sanjiao" data-view="back"><circle data-node-id="n211" cx="214" cy="112" r="4" fill="#C94040" stroke="#F5F0E8" stroke-width="1.5"/></g>
+          <g data-node-id="n212" class="ap" data-pt="TW17" data-name="Yifeng" data-mid="sanjiao" data-view="back"><circle data-node-id="n213" cx="176" cy="62"  r="4" fill="#C94040" stroke="#F5F0E8" stroke-width="1.5"/></g>
+          <!-- GB back -->
+          <g data-node-id="n214" class="ap" data-pt="GB20" data-name="Fengchi" data-mid="gallbladder" data-view="back"><circle data-node-id="n215" cx="172" cy="72"  r="4" fill="#C94040" stroke="#F5F0E8" stroke-width="1.5"/></g>
+          <g data-node-id="n216" class="ap" data-pt="GB30" data-name="Huantiao" data-mid="gallbladder" data-view="back"><circle data-node-id="n217" cx="196" cy="290" r="4" fill="#C94040" stroke="#F5F0E8" stroke-width="1.5"/></g>
+          <!-- Kidney back -->
+          <g data-node-id="n218" class="ap" data-pt="KI6"  data-name="Zhaohai" data-mid="kidney" data-view="back"><circle data-node-id="n219" cx="124" cy="492" r="4" fill="#C94040" stroke="#F5F0E8" stroke-width="1.5"/></g>
+        </g>
+
+      </svg>
+
+      <!-- Floating tooltip -->
+      <div data-node-id="n220" class="body-tip" id="bodyTip">
+        <div data-node-id="n221" class="tip-name" id="tipName"></div>
+        <div data-node-id="n222" class="tip-sub"  id="tipSub"></div>
+      </div>
+    </div>
+
+    <div data-node-id="n223" class="hint-pill">
+      <span data-node-id="n224" class="pulse"></span>
+      Click meridian lines or red point markers for details
+    </div>
+
+    <!-- Legend -->
+    <div data-node-id="n225" class="legend" id="legend"></div>
+  </main>
+
+  <!-- RIGHT PANEL -->
+  <aside data-node-id="n226" class="rpanel" data-role="right-detail">
+    <div data-node-id="n227" class="r-empty" id="detailEmpty">
+      <div data-node-id="n228" class="r-empty-ring">
+        <svg data-node-id="n229" width="28" height="28" viewBox="0 0 28 28" fill="none">
+          <circle data-node-id="n230" cx="14" cy="14" r="8" stroke="currentColor" stroke-width="1.2"/>
+          <path data-node-id="n231" d="M14 10v4l2.5 2.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div data-node-id="n232" class="r-empty-t">Select to Explore</div>
+      <div data-node-id="n233" class="r-empty-s">Click a meridian line or acupoint marker to view related knowledge and gentle lifestyle suggestions.</div>
+    </div>
+    <div data-node-id="n234" class="r-detail" id="detailPanel">
+      <div data-node-id="n235" class="r-dhead">
+        <div data-node-id="n236" class="r-badge" id="detailBadge"></div>
+        <div data-node-id="n237" class="r-name" id="detailName"></div>
+        <div data-node-id="n238" class="r-name-en" id="detailNameEn"></div>
+        <div data-node-id="n239" class="r-cbar" id="detailCbar"></div>
+      </div>
+      <div data-node-id="n240" class="r-body">
+        <div data-node-id="n241" class="r-sec">
+          <div data-node-id="n242" class="r-sec-t" id="lblFunc">Main Function</div>
+          <div data-node-id="n243" class="r-text" id="detailFunc"></div>
+        </div>
+        <div data-node-id="n244" class="r-sec">
+          <div data-node-id="n245" class="r-sec-t">When Blocked</div>
+          <div data-node-id="n246" class="tags" id="detailSymptoms"></div>
+        </div>
+        <div data-node-id="n247" class="r-sec">
+          <div data-node-id="n248" class="r-sec-t">Massage Care</div>
+          <div data-node-id="n249" class="steps" id="detailMassage"></div>
+        </div>
+        <div data-node-id="n250" class="r-sec">
+          <div data-node-id="n251" class="r-sec-t">Best Time</div>
+          <div data-node-id="n252" class="best-time" id="detailTime">
+            <div data-node-id="n253" class="bt-clock" id="btClock"></div>
+            <div data-node-id="n254" class="bt-txt" id="btTxt"></div>
+          </div>
+        </div>
+        <div data-node-id="n255" class="r-sec">
+          <div data-node-id="n256" class="r-sec-t">Food Suggestions</div>
+          <div data-node-id="n257" class="foods" id="detailFoods"></div>
+        </div>
+      </div>
+    </div>
+  </aside>
+</div>
+</div><!-- end atlas fixed area -->
+
+<!-- KNOWLEDGE BASE SECTION -->
+<section data-node-id="n258" class="know" id="knowledge" data-role="knowledge-base">
+  <div data-node-id="n259" class="know-t">Twelve Meridian Library</div>
+  <div data-node-id="n260" class="know-s">Inspired by classical Chinese medicine · Care by the hour, move with nature</div>
+  <div data-node-id="n261" class="know-grid" id="knowGrid"></div>
+</section>
+
+
+</div>
+<script>
+/* ══════════════════════════════════════════════
+   DATA
+══════════════════════════════════════════════ */
+const MERIDIANS = {
+  lung:{ name:'Lung Meridian', en:'Hand Taiyin · LU', color:'#5B8C6A', organ:'Lung', time:'3–5 AM (Yin hour)', func:'Governs qi and breathing, helps diffuse fluids and supports the skin surface.', symptoms:['cough','short breath','chest tightness','sore throat','dry skin','frequent colds','fatigue'], massage:['Press LU1 below the clavicle for 2–3 minutes with comfortable pressure','Stroke gently along the inner forearm toward the thumb 10 times','Pat the lung channel lightly before sleep to encourage circulation'], foods:['White foods: pear, lily bulb, white fungus, daikon','Moistening foods: honey, almond, pear soup','Gentle grains: coix seed, Chinese yam, lotus seed']},
+  large:{ name:'Large Intestine Meridian', en:'Hand Yangming · LI', color:'#8B5530', organ:'Large Intestine', time:'5–7 AM (Mao hour)', func:'Supports elimination and partners with the lung in qi movement and fluid distribution.', symptoms:['constipation','loose stool','toothache','facial acne','shoulder pain','rhinitis'], massage:['Knead LI4 at the tiger mouth for 1–2 minutes','Push along the outer forearm from wrist to elbow','Drink warm water in the morning to support elimination'], foods:['Fiber: oats, sweet potato, celery, banana','Moistening: sesame, walnut, honey, spinach','Reduce fried, spicy, and overly stimulating foods']},
+  stomach:{ name:'Stomach Meridian', en:'Foot Yangming · ST', color:'#C8952A', organ:'Stomach', time:'7–9 AM (Chen hour)', func:'Receives and ripens food; with the spleen it forms the root of acquired qi and blood.', symptoms:['indigestion','stomach pain','bad breath','gum swelling','knee pain','leg weakness'], massage:['Knead ST36 below the knee twice daily for 2–3 minutes','Rub the abdomen clockwise around the navel','Eat a warm, simple breakfast in the stomach hour'], foods:['Warm support: pumpkin, Chinese yam, millet, rice','Digestion support: daikon, hawthorn, malt','Avoid cold drinks and overeating']},
+  spleen:{ name:'Spleen Meridian', en:'Foot Taiyin · SP', color:'#C94040', organ:'Spleen', time:'9–11 AM (Si hour)', func:'Transforms and transports nutrients and fluids; supports muscles, limbs, and stable energy.', symptoms:['poor digestion','bloating','loose stool','water retention','tiredness','irregular period','sallow complexion'], massage:['Press SP6 above the inner ankle with care','Push upward along the inner calf','Pair with SP10 for gentle blood support'], foods:['Spleen support: coix seed, white hyacinth bean, lotus seed, poria','Qi support: astragalus soup, red dates, millet porridge','Reduce cold, greasy, and very sweet foods']},
+  heart:{ name:'Heart Meridian', en:'Hand Shaoyin · HT', color:'#A03050', organ:'Heart', time:'11 AM–1 PM (Wu hour)', func:'Governs blood vessels and houses the spirit; supports clarity, sleep, and emotional steadiness.', symptoms:['palpitations','insomnia','vivid dreams','anxiety','forgetfulness','mouth ulcers','hot palms'], massage:['Press HT7 at the wrist to calm the spirit','Knead HT3 near the elbow for tension','Take a short midday rest to protect heart qi'], foods:['Heart support: red dates, longan, lotus seed','Calming: lily bulb, sour jujube seed, wheat','Blood support: angelica, mulberry']},
+  small:{ name:'Small Intestine Meridian', en:'Hand Taiyang · SI', color:'#3D5A7A', organ:'Small Intestine', time:'1–3 PM (Wei hour)', func:'Receives and separates the clear from the turbid; helps digestion and shoulder-neck flow.', symptoms:['indigestion','shoulder-back pain','stiff neck','tinnitus','hearing decline'], massage:['Press SI3 near the little-finger metacarpal for neck and shoulder tension','Knead SI11 at the scapula with help','Take a light walk after lunch'], foods:['Light foods: tofu, fish soup, winter melon','Moistening: white fungus, dendrobium, ophiopogon','Avoid heavy overeating']},
+  bladder:{ name:'Bladder Meridian', en:'Foot Taiyang · BL', color:'#4A7A5A', organ:'Bladder', time:'3–5 PM (Shen hour)', func:'Supports fluid transformation and runs along the back; many back-shu points regulate the organs.', symptoms:['low back pain','headache','frequent urination','painful urination','calf cramps','neck discomfort'], massage:['Rub BL23 at the low back to warm the kidney area','Press BL40 behind the knee for back-leg tension','Drink water in the afternoon to support metabolism'], foods:['Warm kidney support: walnuts, chives, lamb soup','Drain dampness: winter melon, coix seed, poria','Use strong warming spices lightly']},
+  kidney:{ name:'Kidney Meridian', en:'Foot Shaoyin · KI', color:'#7B5C8C', organ:'Kidney', time:'5–7 PM (You hour)', func:'Stores essence, governs bones and water metabolism, and anchors breath and endurance.', symptoms:['low back weakness','dizziness','tinnitus','night urination','early aging signs','hair loss','bone weakness'], massage:['Rub KI1 on the sole after a warm foot soak','Press KI3 near the inner ankle','Sleep earlier when possible; the kidney prefers conservation'], foods:['Kidney support: black sesame, black beans, goji berries','Stabilizing: Chinese yam, gorgon fruit, lotus seed','Warm gently: walnut, longan, lamb']},
+  pericardium:{ name:'Pericardium Meridian', en:'Hand Jueyin · PC', color:'#B84060', organ:'Pericardium', time:'7–9 PM (Xu hour)', func:'Protects the heart and helps emotional circulation through the chest center.', symptoms:['palpitations','chest tightness','mood swings','insomnia','hot palms','mental tension'], massage:['Press PC6 above the wrist; a key point for chest and stomach comfort','Rub PC8 at the palm center to settle restlessness','Take an evening walk or slow breathing practice'], foods:['Chest-opening: rose tea, lavender, aged tangerine peel','Heart support: white fungus, lily bulb, lotus seed','Calming: sour jujube seed porridge, poria']},
+  sanjiao:{ name:'Triple Burner Meridian', en:'Hand Shaoyang · TW', color:'#B87040', organ:'Triple Burner', time:'9–11 PM (Hai hour)', func:'Coordinates qi and fluid movement through the upper, middle, and lower body.', symptoms:['edema','tinnitus','migraine','stiff neck and shoulders','digestive imbalance'], massage:['Press TW5 above the back of the wrist','Pat along the outer arm centerline','Soak feet in the evening to help the body settle'], foods:['Move qi: finger citron, citron, light aromatic tea','Drain fluids: coix seed, adzuki bean, corn silk','Warm the middle: ginger, brown sugar, red date']},
+  gallbladder:{ name:'Gallbladder Meridian', en:'Foot Shaoyang · GB', color:'#7A4A7A', organ:'Gallbladder', time:'11 PM–1 AM (Zi hour)', func:'Stores and excretes bile; in traditional language it supports courage and decision-making.', symptoms:['migraine','bitter mouth','insomnia','low mood','rib-side pain','blurred vision'], massage:['Press GB20 at the base of the skull for headache','Knead GB34 below the outer knee','Sleep before midnight to let the gallbladder recover'], foods:['Soothe liver-gallbladder: tangerine peel, kumquat, finger citron','Clear and light: bitter melon, shepherd’s purse, bamboo shoots','Reduce greasy food and alcohol']},
+  liver:{ name:'Liver Meridian', en:'Foot Jueyin · LR', color:'#4A6A3A', organ:'Liver', time:'1–3 AM (Chou hour)', func:'Regulates free flow of qi and stores blood; linked with mood, eyes, tendons, and cycles.', symptoms:['irritability','dry eyes','rib-side distension','irregular period','poor sleep','brittle nails'], massage:['Press LR3 between the first and second metatarsals to move stagnation','Press LR14 at the rib area gently with breathing','Take ten deep breaths daily to help qi flow'], foods:['Soothe liver: rose tea, chrysanthemum, green tea','Nourish: goji berry, mulberry, spinach','Reduce alcohol, excess spice, and pent-up anger']}
+};
+
+const ACUPOINTS = {
+  LU1:{ name:'Zhongfu', loc:'Below the outer clavicle, about 6 cun lateral to the midline', func:'Diffuses lung qi; used for cough, breath discomfort, chest and shoulder tightness', massage:'Press with the thumb in gentle circles for about 2 minutes', foods:['pear','lily bulb','white fungus','loquat'], meridian:'lung'},
+  LU5:{ name:'Chize', loc:'At the elbow crease, radial side of the biceps tendon', func:'Clears lung heat and moistens; used for acute cough or sore throat', massage:'Bend the elbow and press to a comfortable ache for 1–2 minutes', foods:['daikon','fritillaria','mint tea','honey water'], meridian:'lung'},
+  LU7:{ name:'Lieque', loc:'Above the radial styloid, 1.5 cun above the wrist crease', func:'Releases the exterior and benefits head-neck discomfort', massage:'Cross the tiger mouths; the index finger indicates the area, press 1–2 minutes', foods:['scallion-ginger tea','almond','coix seed','cilantro'], meridian:'lung'},
+  LU9:{ name:'Taiyuan', loc:'Radial end of the wrist crease near the radial pulse', func:'Tonifies lung qi and supports the pulse; press gently only', massage:'Use light pressure near the pulse for about 1 minute', foods:['Chinese yam','pseudostellaria','astragalus','red date'], meridian:'lung'},
+  LI4:{ name:'Hegu', loc:'On the back of the hand between thumb and index finger', func:'A key point for qi-blood regulation and head-face discomfort', massage:'Press the opposite hand to a comfortable sore-aching feeling for 1–2 minutes', foods:['cabbage','daikon','cucumber','mint'], meridian:'large'},
+  LI11:{ name:'Quchi', loc:'At the outer end of the elbow crease when the elbow is bent', func:'Clears heat and wind; often used for skin itching and heat signs', massage:'Bend the elbow and press the hollow for 2–3 minutes', foods:['purslane','chrysanthemum tea','bitter melon','lotus leaf tea'], meridian:'large'},
+  LI20:{ name:'Yingxiang', loc:'Beside the nostril in the nasolabial groove', func:'Opens the nose; common point for nasal congestion and rhinitis', massage:'Gently rub with index fingers for 1–2 minutes', foods:['magnolia flower tea','mint','scallion white'], meridian:'large'},
+  ST2:{ name:'Sibai', loc:'Below the pupil in the infraorbital hollow', func:'Brightens the eyes and eases facial discomfort', massage:'Press very gently; avoid heavy pressure around the eye socket', foods:['goji berry','chrysanthemum tea','cassia seed','carrot'], meridian:'stomach'},
+  ST25:{ name:'Tianshu', loc:'About 2 cun lateral to the navel', func:'Regulates intestines and abdominal qi; used for bloating, constipation, or loose stool', massage:'Press both sides and rub clockwise for about 3 minutes', foods:['coix seed','hawthorn','malt','daikon'], meridian:'stomach'},
+  ST36:{ name:'Zusanli', loc:'Below the outer knee eye, one finger-width lateral to the tibial crest', func:'Classic strengthening point for spleen-stomach, fatigue, and appetite', massage:'Press or knead to a mild ache for 2–3 minutes', foods:['astragalus porridge','Chinese yam','ginseng chicken soup','red date'], meridian:'stomach'},
+  ST44:{ name:'Neiting', loc:'Between the 2nd and 3rd toes, just behind the web margin', func:'Clears stomach heat; used for toothache, bad breath, and heat signs', massage:'Press with moderate strength for 1 minute', foods:['bitter melon','mung bean soup','mint'], meridian:'stomach'},
+  SP6:{ name:'Sanyinjiao', loc:'Above the inner ankle, behind the tibia', func:'Meeting point of three yin channels; supports spleen, liver, kidney, sleep, and cycles', massage:'Press gently; avoid strong stimulation during pregnancy', foods:['angelica','ejiao','mulberry','red date'], meridian:'spleen'},
+  SP9:{ name:'Yinlingquan', loc:'Below the medial tibial condyle in a hollow', func:'Strengthens spleen and drains dampness; used for edema and heavy feeling', massage:'Bend the knee and press the hollow for 2 minutes', foods:['coix seed','poria','winter melon','adzuki bean'], meridian:'spleen'},
+  SP10:{ name:'Xuehai', loc:'Above the inner upper edge of the patella', func:'Moves and nourishes blood; commonly used in gynecological and skin patterns', massage:'Press with the thumb around the period window if comfortable', foods:['brown sugar ginger tea','rose tea','peach kernel','motherwort'], meridian:'spleen'},
+  HT3:{ name:'Shaohai', loc:'At the medial end of the elbow crease', func:'Clears heart heat and eases nervous fatigue or palpitations', massage:'Press to a mild ache for 1–2 minutes', foods:['lotus plumule tea','bamboo leaf','ophiopogon','poria spirit'], meridian:'heart'},
+  HT7:{ name:'Shenmen', loc:'At the ulnar end of the wrist crease', func:'Calms the spirit; commonly used for sleep, worry, and palpitations', massage:'Press vertically before sleep for several minutes', foods:['sour jujube seed soup','longan','lily bulb','warm milk'], meridian:'heart'},
+  SI3:{ name:'Houxi', loc:'Ulnar side behind the 5th metacarpophalangeal joint', func:'Opens the governor vessel and relieves neck-back tension', massage:'Press at work breaks when neck and shoulders feel tight', foods:['goji berry','mulberry','gastrodia','eucommia tea'], meridian:'small'},
+  SI11:{ name:'Tianzong', loc:'In the central depression below the scapular spine', func:'Moves qi through the shoulder blade area', massage:'Ask someone to knead from light to moderate pressure for 3–5 minutes', foods:['kudzu soup','mulberry twig','turmeric'], meridian:'small'},
+  SI14:{ name:'Jianwaishu', loc:'Beside the first thoracic vertebra', func:'Relaxes shoulder and upper back channels', massage:'Use assisted pressure or a massage tool gently', foods:['ginger soup','kudzu porridge','danshen tea'], meridian:'small'},
+  BL2:{ name:'Cuanzhu', loc:'At the medial end of the eyebrow', func:'Clears the head and eyes; used for headache and eye strain', massage:'Rub both eyebrow heads gently for 1–2 minutes', foods:['chrysanthemum tea','cassia seed','mulberry leaf','goji berry'], meridian:'bladder'},
+  BL10:{ name:'Tianzhu', loc:'Below the occiput, near the outer edge of the trapezius', func:'Eases occipital headache and neck stiffness', massage:'Press upward with thumbs for 2–3 minutes', foods:['kudzu powder','ligusticum tea','chrysanthemum','gastrodia'], meridian:'bladder'},
+  BL13:{ name:'Feishu', loc:'Back-shu point of lung beside T3', func:'Supports lung qi and cough/breath patterns', massage:'Warm compress or gentle rubbing on the upper back', foods:['lily bulb','fritillaria','white fungus','almond'], meridian:'bladder'},
+  BL15:{ name:'Xinshu', loc:'Back-shu point of heart beside T5', func:'Opens the chest and calms the spirit', massage:'Use assisted rubbing or gentle warmth', foods:['lotus plumule','danshen tea','rose','longan'], meridian:'bladder'},
+  BL18:{ name:'Ganshu', loc:'Back-shu point of liver beside T9', func:'Soothes liver and benefits the eyes', massage:'Assisted rubbing or gentle warming care', foods:['goji berry','cassia tea','rose','chrysanthemum'], meridian:'bladder'},
+  BL20:{ name:'Pishu', loc:'Back-shu point of spleen beside T11', func:'Strengthens spleen and digestion', massage:'Assisted back rubbing for around 5 minutes', foods:['Chinese yam','coix seed','white hyacinth bean','red date'], meridian:'bladder'},
+  BL23:{ name:'Shenshu', loc:'Back-shu point of kidney beside L2', func:'Supports kidney essence and low-back strength', massage:'Rub the low back with fists until warm', foods:['black sesame','walnut','goji berry','black bean'], meridian:'bladder'},
+  BL25:{ name:'Dachangshu', loc:'Back-shu point of large intestine beside L4', func:'Regulates intestines and low-back qi', massage:'Use assisted pressure or gentle warmth', foods:['oats','hemp seed','honey','banana'], meridian:'bladder'},
+  BL40:{ name:'Weizhong', loc:'At the midpoint of the back knee crease', func:'Classic point for low-back and leg tension', massage:'Press firmly but comfortably behind the knee', foods:['eucommia','mistletoe','achyranthes','bone broth'], meridian:'bladder'},
+  BL57:{ name:'Chengshan', loc:'Below the belly of the calf muscle', func:'Relieves calf cramps and leg channel tension', massage:'Press during cramps or rub after walking', foods:['papaya','kudzu','white peony','honey water'], meridian:'bladder'},
+  BL60:{ name:'Kunlun', loc:'Between the outer ankle and Achilles tendon', func:'Relaxes tendons and clears heat; used for ankle and occipital discomfort', massage:'Press the hollow for around 2 minutes', foods:['achyranthes','papaya','coix seed','ligusticum'], meridian:'bladder'},
+  KI1:{ name:'Yongquan', loc:'On the sole, near the front third depression', func:'Anchors and refreshes; classic kidney grounding point', massage:'Rub after foot soak 50–100 times', foods:['black sesame paste','walnut','goji tea','Chinese yam'], meridian:'kidney'},
+  KI3:{ name:'Taixi', loc:'Between the inner ankle and Achilles tendon', func:'Kidney source point; supports yin, yang, and low back', massage:'Press the hollow to a mild ache for 2–3 minutes', foods:['goji berry','cornus','fleeceflower root','black bean'], meridian:'kidney'},
+  KI6:{ name:'Zhaohai', loc:'Below the inner ankle tip', func:'Nourishes yin and supports throat and sleep', massage:'Press gently with KI3 for better yin support', foods:['dendrobium tea','ophiopogon','polygonatum','white fungus'], meridian:'kidney'},
+  PC6:{ name:'Neiguan', loc:'About 2 cun above the wrist crease between the tendons', func:'Opens the chest, harmonizes the stomach, and calms the spirit', massage:'Press for nausea, motion sickness, or chest tension', foods:['lotus seed','lily bulb','rose tea','aged tangerine peel'], meridian:'pericardium'},
+  PC8:{ name:'Laogong', loc:'At the center of the palm', func:'Clears heart heat and settles restlessness', massage:'Rub both palms together until warm', foods:['bamboo leaf tea','lotus plumule','gardenia tea','kuding tea'], meridian:'pericardium'},
+  TW5:{ name:'Waiguan', loc:'About 2 cun above the back wrist crease', func:'Clears heat and opens the triple burner channel', massage:'Press with moderate pressure for 2–3 minutes', foods:['chrysanthemum tea','mint','vitex fruit','bupleurum'], meridian:'sanjiao'},
+  TW14:{ name:'Jianliao', loc:'Below and behind the shoulder peak', func:'Moves wind-damp and eases shoulder-arm pain', massage:'Assisted pressure or cupping-style care if appropriate', foods:['turmeric','mulberry twig','clematis','astragalus'], meridian:'sanjiao'},
+  TW17:{ name:'Yifeng', loc:'Behind the earlobe in the hollow', func:'Benefits the ears and eases wind-related pain', massage:'Press gently for ear tension or tinnitus support', foods:['walnut','bone broth','goji berry'], meridian:'sanjiao'},
+  GB20:{ name:'Fengchi', loc:'At the base of the skull in the hollows beside the tendons', func:'Key point for headache, neck pain, and external wind signs', massage:'Press upward with both thumbs for about 3 minutes', foods:['gastrodia fish soup','chrysanthemum','kudzu','ligusticum tea'], meridian:'gallbladder'},
+  GB21:{ name:'Jianjing', loc:'Midpoint between GV14 and the shoulder peak', func:'Relieves neck-shoulder tension', massage:'Pinch and knead shoulder muscles comfortably', foods:['kudzu porridge','ligusticum','siler','ginger tea'], meridian:'gallbladder'},
+  GB30:{ name:'Huantiao', loc:'On the hip at the lateral gluteal region', func:'Opens hip and leg channels; used for sciatica-like tension', massage:'Side-lying assisted deep pressure, cautiously', foods:['eucommia','achyranthes','coix seed','mistletoe'], meridian:'gallbladder'},
+  GB34:{ name:'Yanglingquan', loc:'Below the outer knee near the fibular head', func:'Influential point for tendons; soothes liver-gallbladder', massage:'Press to a comfortable ache for 2–3 minutes', foods:['capillaris','lysimachia','bupleurum','dandelion'], meridian:'gallbladder'},
+  GB44:{ name:'Zuqiaoyin', loc:'Lateral side of the 4th toe nail corner', func:'Clears heat and eases rib-side, sleep, and head discomfort', massage:'Use brief nail pressure for strong stimulation only if comfortable', foods:['rose tea','finger citron','citron','mint'], meridian:'gallbladder'},
+  LR3:{ name:'Taichong', loc:'On the top of the foot between the 1st and 2nd metatarsals', func:'Classic point for moving liver qi and easing emotional constraint', massage:'Slide up from the toe web and press the hollow for 30–60 seconds', foods:['rose tea','chrysanthemum','green tangerine peel','bupleurum'], meridian:'liver'},
+  LR8:{ name:'Ququan', loc:'At the medial end of the knee crease', func:'Clears damp-heat and supports lower-jiao regulation', massage:'Bend knee and press the inner hollow for 2 minutes', foods:['coix seed','poria','alisma','plantain herb'], meridian:'liver'},
+  LR14:{ name:'Qimen', loc:'In the 6th intercostal space, lateral to the midline', func:'Liver front-mu point; helps move rib-side constraint', massage:'Lie down, press gently with slow breathing', foods:['rose','silk tree flower','finger citron','aged tangerine peel'], meridian:'liver'}
+};
+
+/* ══════════════════════════════════════════════
+   STATE
+══════════════════════════════════════════════ */
+let currentView = 'front';  // 'front' | 'back'
+let showMer = true;
+let showAcu = true;
+let selMid = null;
+let selPt  = null;
+
+/* ══════════════════════════════════════════════
+   VIEW SWITCH — front / back
+══════════════════════════════════════════════ */
+function switchView(v){
+  currentView = v;
+  // outline
+  document.getElementById('outlineFront').style.display = v==='front'?'':'none';
+  document.getElementById('outlineBack').style.display  = v==='back' ?'':'none';
+  // toggle buttons
+  document.querySelectorAll('#viewToggle button').forEach((b,i)=>{
+    b.classList.toggle('active',(i===0&&v==='front')||(i===1&&v==='back'));
+  });
+  // meridian paths: show paths matching current view OR 'both'
+  document.querySelectorAll('.mp').forEach(p=>{
+    const pv = p.dataset.view||'front';
+    p.style.display = (pv==='both'||pv===v)?'':'none';
+  });
+  // acupoints: show only matching view
+  document.querySelectorAll('.ap').forEach(a=>{
+    const av = a.dataset.view||'front';
+    const visible = av === v;
+    // also hide if showAcu is off
+    a.style.display = (visible && showAcu) ? '' : 'none';
+  });
+  // reapply dim/highlight
+  applyHighlight();
+}
+
+/* ══════════════════════════════════════════════
+   LAYER TOGGLES
+══════════════════════════════════════════════ */
+function toggleLayer(layer){
+  if(layer==='mer'){
+    showMer = !showMer;
+    document.getElementById('lbtn-mer').classList.toggle('on', showMer);
+    document.getElementById('meridianLayer').style.display = showMer?'':'none';
+  } else {
+    showAcu = !showAcu;
+    document.getElementById('lbtn-acu').classList.toggle('on', showAcu);
+    // hide/show only current-view points
+    document.querySelectorAll('.ap').forEach(a=>{
+      const av = a.dataset.view||'front';
+      a.style.display = (showAcu && av===currentView)?'':'none';
+    });
+  }
+}
+
+/* ══════════════════════════════════════════════
+   HIGHLIGHT
+══════════════════════════════════════════════ */
+function applyHighlight(){
+  const allPaths = document.querySelectorAll('.mp');
+  const allAp    = document.querySelectorAll('.ap');
+  if(!selMid && !selPt){
+    allPaths.forEach(p=>p.classList.remove('dim','hi'));
+    allAp.forEach(a=>a.classList.remove('dim','sel'));
+    return;
+  }
+  // dim all visible paths
+  allPaths.forEach(p=>{
+    const pv = p.dataset.view||'front';
+    if(pv!=='both'&&pv!==currentView) return;
+    if(selMid){
+      p.classList.toggle('dim', p.dataset.mid !== selMid);
+      p.classList.toggle('hi',  p.dataset.mid === selMid);
+    } else {
+      // point selected — highlight that meridian only
+      const ap = ACUPOINTS[selPt];
+      const mid = ap ? ap.meridian : null;
+      p.classList.toggle('dim', p.dataset.mid !== mid);
+      p.classList.toggle('hi',  p.dataset.mid === mid);
+    }
+  });
+  // dim all visible ap
+  allAp.forEach(a=>{
+    const av = a.dataset.view||'front';
+    if(av!==currentView) return;
+    if(selMid){
+      a.classList.toggle('dim', a.dataset.mid !== selMid);
+      a.classList.remove('sel');
+    } else {
+      a.classList.remove('dim');
+      a.classList.toggle('sel', a.dataset.pt === selPt);
+    }
+  });
+}
+
+function clearHighlight(){
+  document.querySelectorAll('.mp').forEach(p=>p.classList.remove('dim','hi'));
+  document.querySelectorAll('.ap').forEach(a=>a.classList.remove('dim','sel'));
+}
+
+/* ══════════════════════════════════════════════
+   DETAIL PANEL
+══════════════════════════════════════════════ */
+function showEmpty(){
+  document.getElementById('detailEmpty').style.display='flex';
+  document.getElementById('detailPanel').classList.remove('show');
+}
+
+function showMeridianDetail(mid){
+  const d = MERIDIANS[mid]; if(!d) return;
+  document.getElementById('detailEmpty').style.display='none';
+  const panel = document.getElementById('detailPanel');
+  panel.classList.add('show');
+  document.getElementById('detailBadge').className='r-badge mer';
+  document.getElementById('detailBadge').textContent='Meridian';
+  document.getElementById('detailName').textContent=d.name;
+  document.getElementById('detailNameEn').textContent=d.en;
+  document.getElementById('detailCbar').style.background=d.color;
+  document.getElementById('lblFunc').textContent='Main Function';
+  document.getElementById('detailFunc').textContent=d.func;
+  // symptoms
+  const st = document.getElementById('detailSymptoms');
+  st.innerHTML=d.symptoms.map(s=>`<span class="tag warn">${s}</span>`).join('');
+  // massage
+  const ms = document.getElementById('detailMassage');
+  ms.innerHTML=d.massage.map((m,i)=>`<div class="step"><span class="snum">${i+1}</span><span>${m}</span></div>`).join('');
+  // time
+  document.getElementById('btClock').textContent=d.time.split(' ')[0];
+  document.getElementById('btTxt').innerHTML=`Best care time<br><b>${d.time}</b>`;
+  // foods
+  const fd = document.getElementById('detailFoods');
+  fd.innerHTML=d.foods.map(f=>`<div class="food"><span class="fdot"></span>${f}</div>`).join('');
+}
+
+function showAcupointDetail(pk){
+  const d = ACUPOINTS[pk]; if(!d) return;
+  const m = MERIDIANS[d.meridian]||{};
+  document.getElementById('detailEmpty').style.display='none';
+  const panel = document.getElementById('detailPanel');
+  panel.classList.add('show');
+  document.getElementById('detailBadge').className='r-badge acu';
+  document.getElementById('detailBadge').textContent='Acupoint · '+pk;
+  document.getElementById('detailName').textContent=d.name;
+  document.getElementById('detailNameEn').textContent=(m.name||'')+' · '+d.loc;
+  document.getElementById('detailCbar').style.background=m.color||'#C94040';
+  document.getElementById('lblFunc').textContent='Main Use';
+  document.getElementById('detailFunc').textContent=d.func;
+  // symptoms — show meridian symptoms as context
+  const st = document.getElementById('detailSymptoms');
+  const msyms = m.symptoms||[];
+  st.innerHTML=`<span class="tag">Location: ${d.loc}</span>`+msyms.slice(0,4).map(s=>`<span class="tag warn">${s}</span>`).join('');
+  // massage
+  const ms = document.getElementById('detailMassage');
+  ms.innerHTML=`<div class="step"><span class="snum">✦</span><span>${d.massage}</span></div>`;
+  // time
+  document.getElementById('btClock').textContent=(m.time||'').split(' ')[0]||'—';
+  document.getElementById('btTxt').innerHTML=`Channel: ${m.name||'—'}<br>Best care time: <b>${m.time||'—'}</b>`;
+  // foods
+  const fd = document.getElementById('detailFoods');
+  fd.innerHTML=d.foods.map(f=>`<div class="food"><span class="fdot"></span>${f}</div>`).join('');
+}
+
+/* ══════════════════════════════════════════════
+   TOOLTIP
+══════════════════════════════════════════════ */
+function showTip(x,y,name,sub){
+  const t=document.getElementById('bodyTip');
+  document.getElementById('tipName').textContent=name;
+  document.getElementById('tipSub').textContent=sub;
+  t.style.left=(x+14)+'px'; t.style.top=(y-10)+'px';
+  t.classList.add('show');
+}
+function hideTip(){ document.getElementById('bodyTip').classList.remove('show'); }
+
+/* ══════════════════════════════════════════════
+   MERIDIAN LIST BUILD
+══════════════════════════════════════════════ */
+function initList(){
+  const el = document.getElementById('meridianList');
+  el.innerHTML = Object.entries(MERIDIANS).map(([k,d])=>`
+    <div class="mitem on" id="ml-${k}" data-mid="${k}" style="--m-c:${d.color}">
+      <span class="mbar" style="background:${d.color}"></span>
+      <div class="minfo">
+        <div class="mname">${d.name}</div>
+        <div class="msub">${d.organ} · ${d.time}</div>
+      </div>
+      <span class="mtog"></span>
+    </div>
+  `).join('');
+  // click handlers
+  document.querySelectorAll('.mitem').forEach(item=>{
+    item.addEventListener('click', e=>{
+      e.stopPropagation();
+      const mk = item.dataset.mid;
+      if(selMid===mk){ selMid=null; clearHighlight(); showEmpty(); item.classList.remove('selected'); return; }
+      selMid=mk; selPt=null;
+      document.querySelectorAll('.mitem').forEach(i=>i.classList.remove('selected'));
+      item.classList.add('selected');
+      applyHighlight();
+      showMeridianDetail(mk);
+    });
+  });
+}
+
+/* ══════════════════════════════════════════════
+   LEGEND BUILD
+══════════════════════════════════════════════ */
+function initLegend(){
+  const el = document.getElementById('legend');
+  el.innerHTML = Object.entries(MERIDIANS).map(([k,d])=>`
+    <div class="leg-i">
+      <span class="leg-l" style="background:${d.color}"></span>
+      <span>${d.organ}</span>
+    </div>
+  `).join('');
+}
+
+/* ══════════════════════════════════════════════
+   KNOWLEDGE GRID
+══════════════════════════════════════════════ */
+function initGrid(){
+  const el = document.getElementById('knowGrid');
+  el.innerHTML = Object.entries(MERIDIANS).map(([k,d])=>`
+    <div class="kcard" style="--kc:${d.color}" onclick="document.getElementById('atlas').scrollIntoView({behavior:'smooth'})">
+      <div class="kc-icon">${d.organ}</div>
+      <div class="kc-name">${d.name}</div>
+      <div class="kc-org">${d.organ} · ${d.time}</div>
+      <div class="kc-desc">${d.func.substring(0,60)}…</div>
+    </div>
+  `).join('');
+}
+
+/* ══════════════════════════════════════════════
+   MERIDIAN PATH CLICK / HOVER
+══════════════════════════════════════════════ */
+document.querySelectorAll('.mp').forEach(path=>{
+  path.addEventListener('click', e=>{
+    e.stopPropagation();
+    const mk = path.dataset.mid;
+    if(!mk) return;
+    if(selMid===mk){ selMid=null; clearHighlight(); showEmpty();
+      document.querySelectorAll('.mitem').forEach(i=>i.classList.remove('selected')); return; }
+    selMid=mk; selPt=null;
+    document.querySelectorAll('.mitem').forEach(i=>i.classList.remove('selected'));
+    const li = document.getElementById('ml-'+mk);
+    if(li) li.classList.add('selected');
+    applyHighlight();
+    showMeridianDetail(mk);
+  });
+  path.addEventListener('mouseenter', e=>{
+    const d = MERIDIANS[path.dataset.mid];
+    if(d) showTip(e.clientX, e.clientY, d.name, d.organ+' · '+d.time);
+  });
+  path.addEventListener('mouseleave', hideTip);
+});
+
+/* ══════════════════════════════════════════════
+   ACUPOINT CLICK / HOVER
+══════════════════════════════════════════════ */
+document.querySelectorAll('.ap').forEach(pt=>{
+  pt.addEventListener('click', e=>{
+    e.stopPropagation();
+    const pk = pt.dataset.pt;
+    const ap = ACUPOINTS[pk]; if(!ap) return;
+    if(selPt===pk){ selPt=null; selMid=null; clearHighlight(); showEmpty();
+      document.querySelectorAll('.mitem').forEach(i=>i.classList.remove('selected')); return; }
+    selPt=pk; selMid=null;
+    document.querySelectorAll('.ap').forEach(a=>a.classList.toggle('sel',a.dataset.pt===pk));
+    document.querySelectorAll('.mitem').forEach(el=>el.classList.toggle('selected',el.id==='ml-'+ap.meridian));
+    applyHighlight();
+    showAcupointDetail(pk);
+  });
+  pt.addEventListener('mouseenter', e=>{
+    const ap = ACUPOINTS[pt.dataset.pt];
+    const m = ap ? MERIDIANS[ap.meridian] : null;
+    showTip(e.clientX, e.clientY, pt.dataset.name, pt.dataset.pt+(m?' · '+m.name:''));
+  });
+  pt.addEventListener('mouseleave', hideTip);
+});
+
+/* ══════════════════════════════════════════════
+   BACKGROUND CLICK => DESELECT
+══════════════════════════════════════════════ */
+document.getElementById('bodyCanvas').addEventListener('click', e=>{
+  if(e.target===e.currentTarget||e.target.closest('#outlineFront')||e.target.closest('#outlineBack')){
+    selMid=null; selPt=null; clearHighlight(); showEmpty();
+    document.querySelectorAll('.mitem').forEach(e=>e.classList.remove('selected'));
+  }
+});
+
+/* ══════════════════════════════════════════════
+   BOOT
+══════════════════════════════════════════════ */
+initList();
+initLegend();
+initGrid();
+switchView('front');
+</script>
+</body>
+</html>

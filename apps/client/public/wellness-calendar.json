@@ -1,0 +1,47 @@
+{
+  "_meta": {
+    "solarTerm": "小暑",
+    "solarTermEn": "Minor Heat",
+    "startDate": "2026-07-07",
+    "nextTermDate": "2026-07-23",
+    "generatedAt": "2026-07-08"
+  },
+  "zh": {
+    "actions": [
+      {
+        "label": "饮食",
+        "title": "清淡为主，少油少盐",
+        "desc": "小暑暑气渐盛，脾胃易受湿热困扰。宜吃薏米、冬瓜、绿豆等清热利湿食材，少食油腻辛辣，避免大量冷饮伤阳。"
+      },
+      {
+        "label": "起居",
+        "title": "午间小憩，护心养神",
+        "desc": "夏日心火偏旺，午时（11:00–13:00）小睡15–30分钟，帮助心经得养。早起晨练选在日出后一小时内，避免正午烈日。"
+      },
+      {
+        "label": "情志",
+        "title": "静心慢行，莫生浮躁",
+        "desc": "暑热易使人烦躁，情志调摄以"静"为要。遇事不急、缓缓呼吸，傍晚散步或听轻音乐，让心气随凉风慢慢沉下来。"
+      }
+    ]
+  },
+  "en": {
+    "actions": [
+      {
+        "label": "Eating",
+        "title": "Light meals, less oil and salt",
+        "desc": "During Minor Heat, damp-heat can weigh on the spleen and stomach. Opt for coix seed, winter melon, and mung beans to clear heat. Reduce greasy or spicy food and avoid excessive cold drinks that dampen yang qi."
+      },
+      {
+        "label": "Movement",
+        "title": "A midday nap, rest for the heart",
+        "desc": "Summer sees heart fire peak. A 15–30 minute nap between 11:00–13:00 supports the heart channel. Exercise in the cool hour after sunrise, not under the midday sun."
+      },
+      {
+        "label": "Mind",
+        "title": "Stay calm, resist restlessness",
+        "desc": "Summer heat stirs irritability. Cultivate stillness: slow your breath when things feel urgent, take an evening walk, or listen to soft music. Let the cooler air settle your spirit."
+      }
+    ]
+  }
+}
