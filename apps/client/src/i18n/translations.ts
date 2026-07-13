@@ -2,7 +2,7 @@ import type { ConstitutionKey } from "@/data/constitutions";
 
 export const navText = {
   zh: { time: "天时", quiz: "识己", herbs: "本草", acupoints: "经穴", footer1: "本草·识己是一款中医药生活美学科普原型，不替代医生诊断或治疗。", footer2: "HERBA & SOUL · 去迷信化、去功利化，把传统知识转译为日常可用的温柔工具。", switchLabel: "EN" },
-  en: { time: "Season", quiz: "Self", herbs: "Herbs", acupoints: "Meridians", footer1: "Herba & Soul is a lifestyle education prototype inspired by Chinese medicine. It does not replace medical diagnosis or treatment.", footer2: "HERBA & SOUL · Ancient knowledge, translated into gentle tools for everyday life.", switchLabel: "中" }
+  en: { time: "Season", quiz: "Self", herbs: "Herbs", acupoints: "Meridians", footer1: "Herba & Soul is a lifestyle education prototype inspired by Traditional Chinese Medicine (TCM). It does not replace medical diagnosis or treatment.", footer2: "HERBA & SOUL · Ancient knowledge, translated into gentle tools for everyday life.", switchLabel: "中" }
 };
 
 export const homeText = {
@@ -35,7 +35,7 @@ export const homeText = {
     calendarComing: "更多个性化养生建议将随版本更新逐步上线"
   },
   en: {
-    tagline: "Drink with the hour. Live with your body. Let old wisdom become a remedy for right now.",
+    tagline: "Live with the hour, and your body. Let old wisdom become a remedy for right now.",
     titleLeft: "Herba",
     titleRight: "Soul",
     lateNight: "It is late. Let sleep do the work while the gallbladder and liver channels settle the day.",
@@ -43,10 +43,10 @@ export const homeText = {
     today: "See Today's Rhythm",
     now: "Now",
     kicker: "Four Ways In · Start Today",
-    heading: "A gentle daily guide that brings Chinese medicine into your real life.",
+    heading: "A gentle daily guide that brings Traditional Chinese Medicine into your real life.",
     intro: "No classical texts required. Meridian hours, solar terms, body types, herbs, and acupoints are translated into things you can actually read, try, and slowly keep.",
     entries: [
-      { title: "Body Check", desc: "15 everyday scenario cards instead of a dry questionnaire.", mark: "S" },
+      { title: "Body Check", desc: "20 everyday scenario cards instead of a dry questionnaire.", mark: "S" },
       { title: "Herbal Pantry", desc: "Common herbs arranged by nature, benefits, and simple steeping ideas.", mark: "H" },
       { title: "Meridians", desc: "Explore the twelve channels and key acupoints through an interactive body map.", mark: "M" },
       { title: "Wellness Calendar", desc: "Small suggestions shaped by the hour and the solar term.", mark: "C" }
@@ -65,18 +65,18 @@ export const homeText = {
 };
 
 export const meridianEn: Record<string, { branch: string; meridian: string; quote: string; tip: string }> = {
-  子时: { branch: "Zi Hour", meridian: "Gallbladder Channel", quote: "Clear decisions begin with a rested gallbladder.", tip: "The gallbladder channel is active now. Put the phone down and let the body prepare clarity for tomorrow." },
-  丑时: { branch: "Chou Hour", meridian: "Liver Channel", quote: "When you lie down, blood returns to the liver.", tip: "Late night belongs to storage and repair. Closing your eyes is already a way of nourishing wood." },
-  寅时: { branch: "Yin Hour", meridian: "Lung Channel", quote: "The lungs bring order and rhythm.", tip: "Before dawn, lung qi begins to spread. If you wake, breathe slowly before thinking too much." },
-  卯时: { branch: "Mao Hour", meridian: "Large Intestine Channel", quote: "Heaven feeds us with qi; earth feeds us with flavor.", tip: "Morning is an opening ritual: warm water, an unhurried bathroom break, and a softer start." },
-  辰时: { branch: "Chen Hour", meridian: "Stomach Channel", quote: "The stomach is the sea of food and water.", tip: "The stomach is ready. Keep breakfast warm and simple so the day begins from steadiness." },
-  巳时: { branch: "Si Hour", meridian: "Spleen Channel", quote: "The spleen is the granary official.", tip: "Transformation is strongest now. Do your important work and do not interrupt it with iced drinks." },
-  午时: { branch: "Wu Hour", meridian: "Heart Channel", quote: "The heart is the sovereign of spirit.", tip: "At midday, eat a little lighter and leave the heart a quiet pocket of time." },
-  未时: { branch: "Wei Hour", meridian: "Small Intestine Channel", quote: "The small intestine receives, sorts, and clarifies.", tip: "A ten-minute walk after lunch may wake you more gently than staying trapped in the screen." },
-  申时: { branch: "Shen Hour", meridian: "Bladder Channel", quote: "Taiyang opens the surface.", tip: "Qi moves along the back now. Stand up, stretch the neck and shoulders, and let that river move." },
-  酉时: { branch: "You Hour", meridian: "Kidney Channel", quote: "The kidneys hold strength and endurance.", tip: "Evening asks for less overdraft and more coming home. Dinner does not need to be heavy." },
-  戌时: { branch: "Xu Hour", meridian: "Pericardium Channel", quote: "The chest center carries the heart's messages.", tip: "The pericardium protects the heart. Let the day's emotions loosen; a warm foot soak is enough." },
-  亥时: { branch: "Hai Hour", meridian: "Triple Burner Channel", quote: "The triple burner keeps the waterways open.", tip: "Dim the lights. Do not let another flood of information pass through your night." }
+  子时: { branch: "Zi Hour (子时)", meridian: "Gallbladder Channel", quote: "Clear decisions begin with a rested gallbladder.", tip: "The gallbladder channel is active now. Put the phone down and let the body prepare clarity for tomorrow." },
+  丑时: { branch: "Chou Hour (丑时)", meridian: "Liver Channel", quote: "When you lie down, blood returns to the liver.", tip: "Late night belongs to storage and repair. Closing your eyes is already a way of nourishing wood." },
+  寅时: { branch: "Yin Hour (寅时)", meridian: "Lung Channel", quote: "The lungs bring order and rhythm.", tip: "Before dawn, lung qi begins to spread. If you wake, breathe slowly before thinking too much." },
+  卯时: { branch: "Mao Hour (卯时)", meridian: "Large Intestine Channel", quote: "Heaven feeds us with qi; earth feeds us with flavor.", tip: "Morning is an opening ritual: warm water, an unhurried bathroom break, and a softer start." },
+  辰时: { branch: "Chen Hour (辰时)", meridian: "Stomach Channel", quote: "The stomach is the sea of food and water.", tip: "The stomach is ready. Keep breakfast warm and simple so the day begins from steadiness." },
+  巳时: { branch: "Si Hour (巳时)", meridian: "Spleen Channel", quote: "The spleen is the granary official.", tip: "Transformation is strongest now. Do your important work and do not interrupt it with iced drinks." },
+  午时: { branch: "Wu Hour (午时)", meridian: "Heart Channel", quote: "The heart is the sovereign of spirit.", tip: "At midday, eat a little lighter and leave the heart a quiet pocket of time." },
+  未时: { branch: "Wei Hour (未时)", meridian: "Small Intestine Channel", quote: "The small intestine receives, sorts, and clarifies.", tip: "A ten-minute walk after lunch may wake you more gently than staying trapped in the screen." },
+  申时: { branch: "Shen Hour (申时)", meridian: "Bladder Channel", quote: "Taiyang opens the surface.", tip: "Qi moves along the back now. Stand up, stretch the neck and shoulders, and let that river move." },
+  酉时: { branch: "You Hour (酉时)", meridian: "Kidney Channel", quote: "The kidneys hold strength and endurance.", tip: "Evening asks for less overdraft and more coming home. Dinner does not need to be heavy." },
+  戌时: { branch: "Xu Hour (戌时)", meridian: "Pericardium Channel", quote: "The chest center carries the heart's messages.", tip: "The pericardium protects the heart. Let the day's emotions loosen; a warm foot soak is enough." },
+  亥时: { branch: "Hai Hour (亥时)", meridian: "Triple Burner Channel", quote: "The triple burner keeps the waterways open.", tip: "Dim the lights. Do not let another flood of information pass through your night." }
 };
 
 export const solarTermEn: Record<string, { name: string; hint: string }> = {
@@ -84,7 +84,7 @@ export const solarTermEn: Record<string, { name: string; hint: string }> = {
   雨水: { name: "Rain Water", hint: "Moisture returns. Go easy on sweets and protect digestion." },
   惊蛰: { name: "Awakening of Insects", hint: "Thunder wakes the season. Sleep early and rise gently." },
   春分: { name: "Spring Equinox", hint: "Day and night are balanced. Keep food light and emotions even." },
-  清明: { name: "Clear and Bright", hint: "Clear qi rises. A walk outside helps the body open." },
+  清明: { name: "Pure Brightness", hint: "Clear qi rises. A walk outside helps the body open." },
   谷雨: { name: "Grain Rain", hint: "Dampness grows. Drink less cold and support the spleen." },
   立夏: { name: "Start of Summer", hint: "Summer fire appears. Care for the heart by protecting sleep." },
   小满: { name: "Grain Buds", hint: "Not too full is already enough. Eat with restraint." },
@@ -97,7 +97,7 @@ export const solarTermEn: Record<string, { name: string; hint: string }> = {
   白露: { name: "White Dew", hint: "Dryness shows. Sleep earlier and moisten lung fluids." },
   秋分: { name: "Autumn Equinox", hint: "Yin and yang meet halfway. Let the spirit settle inward." },
   寒露: { name: "Cold Dew", hint: "Coolness deepens. Keep ankles and the back of the neck warm." },
-  霜降: { name: "Frost Descent", hint: "Dry autumn turns cold. Warm, moist food fits better." },
+  霜降: { name: "Frost's Descent", hint: "Dry autumn turns cold. Warm, moist food fits better." },
   立冬: { name: "Start of Winter", hint: "Winter storage begins. Spend less energy where it is not needed." },
   小雪: { name: "Minor Snow", hint: "Cold is present but not deep. Warm the spleen and kidneys gently." },
   大雪: { name: "Major Snow", hint: "Nature closes and stores. Sleeping early is the first tonic." },
@@ -192,7 +192,7 @@ export const constitutionEn: Record<ConstitutionKey, { name: string; shortName: 
   shire: { name: "Damp-Heat Type", shortName: "Damp Heat", keywords: ["oily skin", "bitter mouth", "restless heat"], image: "A humid southern wind meets hot sun; the plants steam and need a clearer breeze.", advice: ["Reduce late nights and heavy late-night food.", "Exercise to a light sweat, not an exhausting one.", "Pair chrysanthemum or coix seed for a fresher daily drink."] },
   xueyu: { name: "Blood-Stasis Type", shortName: "Stasis", keywords: ["dull complexion", "stabbing pain", "bruises easily"], image: "Old stones slow an old river; the sky is dark blue, and the stream needs a new way around the blockage.", advice: ["Avoid sitting still too long; move the neck, shoulders, and calves.", "Keep emotions moving instead of storing pressure in the body.", "Seek medical advice for obvious menstrual pain or sharp pain."] },
   qiyu: { name: "Qi-Stagnant Type", shortName: "Stagnant Qi", keywords: ["chest tightness", "sighing", "emotionally sensitive"], image: "Wind in a bamboo grove is blocked by a wall; the shadows are dense but not chaotic—one window is enough.", advice: ["Give yourself ten minutes of aimless walking each day.", "Use breathing with a longer exhale to soften tension.", "Rose or aged tangerine peel aromas can be a gentle emotional cue."] },
-  tebing: { name: "Sensitive Type", shortName: "Sensitive", keywords: ["allergy-prone", "environment-sensitive", "strong reactions"], image: "Pollen rises along a mountain path; the body is like a sensitive doorbell that needs kind boundaries.", advice: ["Track triggers instead of managing allergies by guesswork.", "Protect the nose, throat, and skin barrier during seasonal shifts.", "For clear allergy or asthma-like symptoms, consult a clinician first."] }
+  tebing: { name: "Special Diathesis Constitution", shortName: "Special Diathesis", keywords: ["allergy-prone", "environment-sensitive", "strong reactions"], image: "Pollen rises along a mountain path; the body is like a sensitive doorbell that needs kind boundaries.", advice: ["Track triggers instead of managing allergies by guesswork.", "Protect the nose, throat, and skin barrier during seasonal shifts.", "For clear allergy or asthma-like symptoms, consult a clinician first."] }
 };
 
 export const herbsText = {
@@ -245,12 +245,12 @@ export const acupointsText = {
 };
 
 export const acupointEn: Record<string, { name: string; meridian: string; position: string; effect: string; method: string }> = {
-  足三里: { name: "Zusanli", meridian: "Stomach Channel of Foot-Yangming", position: "About four finger-widths below the outer knee eye, one finger-width lateral to the tibial crest.", effect: "Supports spleen and stomach, steadies earth qi; useful for fatigue, weak appetite, and deskbound routines.", method: "Press and knead with the thumb for 1 minute to a comfortable sore-aching sensation, alternating sides." },
-  太冲: { name: "Taichong", meridian: "Liver Channel of Foot-Jueyin", position: "On the dorsum of the foot, in the depression before the junction of the first and second metatarsals.", effect: "Moves liver qi and helps ease tightness, irritability, and chest constraint.", method: "Slide upward from the toe web to the hollow, press for 30 seconds, then knead gently." },
-  内关: { name: "Neiguan", meridian: "Pericardium Channel of Hand-Jueyin", position: "About three finger-widths above the wrist crease, between the two tendons.", effect: "Calms the spirit and harmonizes the stomach; helpful for anxiety, palpitations, or motion sickness.", method: "Press vertically with the thumb while exhaling slowly, 1 minute on each side." },
-  大椎: { name: "Dazhui", meridian: "Governor Vessel", position: "In the depression below the most prominent bone at the back of the neck when the head is bent forward.", effect: "Supports yang warmth and protects the neck and upper back from cold.", method: "Use a warm towel or dry the area promptly after washing hair; avoid forceful pressing." },
-  合谷: { name: "Hegu", meridian: "Large Intestine Channel of Hand-Yangming", position: "On the back of the hand at the tiger's mouth, in the muscle between the thumb and index finger.", effect: "Regulates qi and blood; often used for head, tooth, and facial discomfort.", method: "Press the opposite Hegu with the thumb to a sore-aching but comfortable degree for 1–2 minutes, alternating sides." },
-  神阙: { name: "Shenque", meridian: "Conception Vessel", position: "At the center of the navel.", effect: "Warms yang, disperses cold, and supports digestion; helpful for cold abdomen and weak digestion.", method: "Warm the navel with the palm and knead clockwise, or use a moxa box for 10–15 minutes." },
-  百会: { name: "Baihui", meridian: "Governor Vessel", position: "At the top of the head, where the line connecting the ear tips meets the midline.", effect: "Lifts clear yang and refreshes the mind; used for dizziness, low spirit, and poor focus.", method: "Gently knead with the pads of the index and middle fingers for 1–2 minutes; do not press hard." },
-  三阴交: { name: "Sanyinjiao", meridian: "Spleen Channel of Foot-Taiyin", position: "About four finger-widths above the inner ankle tip, just behind the medial border of the tibia.", effect: "Harmonizes the liver, spleen, and kidney channels; supports sleep, menstrual regulation, and fluid movement.", method: "Knead with the thumb to a mild sore-aching sensation for 1–2 minutes each side; use caution during menstruation." }
+  足三里: { name: "Zusanli (足三里)", meridian: "Stomach Channel of Foot-Yangming", position: "About four finger-widths below the outer knee eye, one finger-width lateral to the tibial crest.", effect: "Supports spleen and stomach, steadies earth qi; useful for fatigue, weak appetite, and deskbound routines.", method: "Press and knead with the thumb for 1 minute to a comfortable sore-aching sensation, alternating sides." },
+  太冲: { name: "Taichong (太冲)", meridian: "Liver Channel of Foot-Jueyin", position: "On the dorsum of the foot, in the depression before the junction of the first and second metatarsals.", effect: "Moves liver qi and helps ease tightness, irritability, and chest constraint.", method: "Slide upward from the toe web to the hollow, press for 30 seconds, then knead gently." },
+  内关: { name: "Neiguan (内关)", meridian: "Pericardium Channel of Hand-Jueyin", position: "About three finger-widths above the wrist crease, between the two tendons.", effect: "Calms the spirit and harmonizes the stomach; helpful for anxiety, palpitations, or motion sickness.", method: "Press vertically with the thumb while exhaling slowly, 1 minute on each side." },
+  大椎: { name: "Dazhui (大椎)", meridian: "Governor Vessel", position: "In the depression below the most prominent bone at the back of the neck when the head is bent forward.", effect: "Supports yang warmth and protects the neck and upper back from cold.", method: "Use a warm towel or dry the area promptly after washing hair; avoid forceful pressing." },
+  合谷: { name: "Hegu (合谷)", meridian: "Large Intestine Channel of Hand-Yangming", position: "On the back of the hand at the tiger's mouth, in the muscle between the thumb and index finger.", effect: "Regulates qi and blood; often used for head, tooth, and facial discomfort.", method: "Press the opposite Hegu with the thumb to a sore-aching but comfortable degree for 1–2 minutes, alternating sides." },
+  神阙: { name: "Shenque (神阙)", meridian: "Conception Vessel", position: "At the center of the navel.", effect: "Warms yang, disperses cold, and supports digestion; helpful for cold abdomen and weak digestion.", method: "Warm the navel with the palm and knead clockwise, or use a moxa box for 10–15 minutes." },
+  百会: { name: "Baihui (百会)", meridian: "Governor Vessel", position: "At the top of the head, where the line connecting the ear tips meets the midline.", effect: "Lifts clear yang and refreshes the mind; used for dizziness, low spirit, and poor focus.", method: "Gently knead with the pads of the index and middle fingers for 1–2 minutes; do not press hard." },
+  三阴交: { name: "Sanyinjiao (三阴交)", meridian: "Spleen Channel of Foot-Taiyin", position: "About four finger-widths above the inner ankle tip, just behind the medial border of the tibia.", effect: "Harmonizes the liver, spleen, and kidney channels; supports sleep, menstrual regulation, and fluid movement.", method: "Knead with the thumb to a mild sore-aching sensation for 1–2 minutes each side; use caution during menstruation." }
 };
